@@ -1,0 +1,25 @@
+"use client";
+
+import NextImage from "next/image";
+import NextLink from "next/link";
+
+import { Image, Link, NavbarBrand, NavbarContent, Navbar as NextNavbar } from "@nextui-org/react";
+
+export const Navbar = () => {
+	return (
+		<NextNavbar isBordered position="static" classNames={{ wrapper: "max-w-7xl px-4" }}>
+			<NavbarBrand>
+				<NextLink href="/" className="flex items-center gap-2">
+					<Image as={NextImage} src="/favicon.ico" alt="TavernAI Icon" width={40} height={40} />
+					<p className="text-2xl font-bold">TavernAI</p>
+				</NextLink>
+			</NavbarBrand>
+
+			<NavbarContent justify="end">
+				<Link as={NextLink} href={"/characters/"} underline="hover">
+					Characters
+				</Link>
+			</NavbarContent>
+		</NextNavbar>
+	);
+};
