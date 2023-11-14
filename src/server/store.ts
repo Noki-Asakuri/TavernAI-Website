@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-// the store itself does not need any change
 export const useBlurNSFW = create<{ blurNSFW: boolean; disable: () => void; enable: () => void }>()(
 	persist(
 		(set) => ({
@@ -11,7 +10,7 @@ export const useBlurNSFW = create<{ blurNSFW: boolean; disable: () => void; enab
 		}),
 		{
 			name: "blurNSFW-storage",
-			partialize: (state) => ({ ...state }),
+			partialize: (state) => ({ blurNSFW: state.blurNSFW }),
 		},
 	),
 );

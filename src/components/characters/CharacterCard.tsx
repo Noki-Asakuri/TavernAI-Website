@@ -13,9 +13,7 @@ import { useStore } from "zustand";
 type CharacterType = NonNullable<RouterOutputs["tavern"]["getBoard"]["data"]>[number]["characters"][number];
 
 export const CharacterCard = ({ character }: { character: CharacterType }) => {
-	const blurNSFW = useStore(useBlurNSFW, (state) => ({
-		blurNSFW: state.blurNSFW,
-	}));
+	const blurNSFW = useStore(useBlurNSFW, (state) => ({ blurNSFW: state.blurNSFW }));
 
 	const [isNSFW, setNSFW] = useState(character.nsfw === 1);
 
