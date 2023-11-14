@@ -12,6 +12,8 @@ const font = JetBrains_Mono({
 	subsets: ["latin"],
 });
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
 	title: { absolute: "TavernAI", template: "%s - TavernAI" },
 	description:
