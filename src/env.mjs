@@ -1,4 +1,5 @@
 import { createEnv } from "@t3-oss/env-nextjs";
+
 import { z } from "zod";
 
 export const env = createEnv({
@@ -7,16 +8,7 @@ export const env = createEnv({
 	 * isn't built with invalid env vars.
 	 */
 	server: {
-		DATABASE_URL: z
-			.string()
-			.url()
-			.refine(
-				(str) => !str.includes("YOUR_MYSQL_URL_HERE"),
-				"You forgot to change the default URL",
-			),
-		NODE_ENV: z
-			.enum(["development", "test", "production"])
-			.default("development"),
+		NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
 	},
 
 	/**
@@ -33,7 +25,6 @@ export const env = createEnv({
 	 * middlewares) or client-side so we need to destruct manually.
 	 */
 	runtimeEnv: {
-		DATABASE_URL: process.env.DATABASE_URL,
 		NODE_ENV: process.env.NODE_ENV,
 		// NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 	},
@@ -48,3 +39,4 @@ export const env = createEnv({
 	 */
 	emptyStringAsUndefined: true,
 });
+

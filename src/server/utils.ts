@@ -33,6 +33,7 @@ export const readImages = (input_format: "png" | "webp", data: ArrayBuffer) => {
 				console.log(err);
 				return false;
 			}
+
 		case "png":
 			const chunks = extract(new Uint8Array(data));
 
