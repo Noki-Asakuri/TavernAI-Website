@@ -15,8 +15,17 @@ const font = JetBrains_Mono({
 export const metadata: Metadata = {
 	title: { absolute: "TavernAI", template: "%s - TavernAI" },
 	description:
-		"TavernAI is a adventure atmospheric chat and it works with api like KoboldAI, NovelAI, Pygmalion, OpenAI chatGPT",
+		"TavernAI is a adventure atmospheric chat and it works with api like KoboldAI, NovelAI, Pygmalion, OpenAI ChatGPT.",
 	icons: [{ rel: "icon", url: "/favicon.ico" }],
+	twitter: { card: "summary_large_image" },
+	openGraph: {
+		title: "TavernAI",
+		type: "website",
+		images: ["/cover.png"],
+		url: "https://tavernai.vercel.app",
+		description:
+			"TavernAI is a adventure atmospheric chat and it works with api like KoboldAI, NovelAI, Pygmalion, OpenAI ChatGPT.",
+	},
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

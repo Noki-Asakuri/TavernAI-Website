@@ -3,7 +3,7 @@
 import NextImage from "next/image";
 import NextLink from "next/link";
 
-import { Image, Link, NavbarBrand, NavbarContent, Navbar as NextNavbar } from "@nextui-org/react";
+import { Image, NavbarBrand, Navbar as NextNavbar } from "@nextui-org/react";
 
 export const Navbar = () => {
 	return (
@@ -14,12 +14,6 @@ export const Navbar = () => {
 					<p className="text-2xl font-bold">TavernAI</p>
 				</NextLink>
 			</NavbarBrand>
-
-			<NavbarContent justify="end">
-				<Link as={NextLink} href={"/characters/"} underline="hover">
-					Characters
-				</Link>
-			</NavbarContent>
 		</NextNavbar>
 	);
 };
