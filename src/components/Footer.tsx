@@ -17,7 +17,7 @@ export const BottomFooter = () => {
 
 				<div className="flex flex-col gap-2 text-center">
 					<h3 className="text-lg font-bold">Credits</h3>
-					<div className="grid grid-cols-[1fr,max-content,1fr] place-items-start gap-y-2">
+					<div className="grid grid-cols-1 gap-y-2 px-6">
 						<User
 							name="Humi"
 							description={
@@ -97,10 +97,14 @@ export const BottomFooter = () => {
 			<Divider orientation="horizontal" />
 
 			<p className="w-full pt-4 text-center text-sm">
-				All information and images on the website are collected from the Internet. We do not own or take
-				responsibility for any information on this website. If it affects any individual or organization, upon
-				request, we will promptly review and remove it. All characters 18+. The administration is not
-				responsible for the content uploaded by users.
+				All characters 18+. The administration is not responsible for the content uploaded by users.
+			</p>
+
+			<Divider orientation="horizontal" className="mt-4" />
+
+			<p className="w-full pt-4 text-center text-sm">
+				Disclaimer: This fan website is not affiliated with or created by the official developer. All content
+				and information on this website are fan-generated and for entertainment purposes only.
 			</p>
 		</footer>
 	);
