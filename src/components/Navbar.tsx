@@ -7,7 +7,7 @@ import { Image, NavbarBrand, Navbar as NextNavbar } from "@nextui-org/react";
 
 export const Navbar = () => {
 	return (
-		<NextNavbar isBordered position="static" classNames={{ wrapper: "max-w-7xl px-4" }}>
+		<NextNavbar isBordered shouldHideOnScroll position="static" classNames={{ wrapper: "max-w-7xl px-4" }}>
 			<NavbarBrand>
 				<NextLink href="/" className="flex items-center gap-2">
 					<Image as={NextImage} src="/favicon.ico" alt="TavernAI Icon" width={40} height={40} />

@@ -1,12 +1,13 @@
+import { Author } from "~/components/characters/Author";
 import { CharacterCard } from "~/components/characters/CharacterCard";
 import { api } from "~/trpc/server";
 
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import NextLink from "next/link";
-import { notFound } from "next/navigation";
+import { RedirectType, notFound, redirect } from "next/navigation";
 
-import { Avatar, Button, Link } from "@nextui-org/react";
+import { Avatar, Button, Link, Pagination } from "@nextui-org/react";
 
 import { cache } from "react";
 
@@ -14,7 +15,7 @@ const getData = cache(async ({ author, page }: { author: string; page: string })
 	return await api.tavern.getCharactersFromAuthor.query({
 		authorName: author,
 		nsfw: cookies().get("nsfw")?.value === "true",
-		page: Number(page ?? "1"),
+		page: Number(page),
 		perPage: 20,
 	});
 });
@@ -32,9 +33,9 @@ export default async function Page({
 	searchParams: { page },
 }: {
 	params: { author: string };
-	searchParams: { page: string };
+	searchParams: { page?: string };
 }) {
-	const { data } = await getData({ author, page });
+	const { data } = await getData({ author, page: page ?? "1" });
 	if (!data) return notFound();
 
 	return (
@@ -57,31 +58,7 @@ export default async function Page({
 				</div>
 			</section>
 
-			<section className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4 gap-y-4 sm:gap-y-6">
-				<h3 className="col-span-full text-xl font-semibold">Characters</h3>
-
-				{data.characters.map((character) => (
-					<CharacterCard
-						key={character.public_id}
-						character={{
-							id: 0,
-							moderation: character.moderation,
-							create_date: character.createDate,
-							edit_date: character.editDate,
-							name: character.name,
-							nsfw: 0,
-							private: 0,
-							public_id: character.public_id,
-							public_id_short: character.public_id_short,
-							short_description: character.shortDescription,
-							status: character.status,
-							user_id: "",
-							user_name: data.name,
-							user_name_view: data.name_view,
-						}}
-					/>
-				))}
-			</section>
+			<Author initialData={data} nsfw={cookies().get("nsfw")?.value === "true"} page={Number(page ?? "1")} />
 		</main>
 	);
 }

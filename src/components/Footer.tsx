@@ -28,7 +28,28 @@ export const BottomFooter = () => {
 									</Link>
 								</>
 							}
-							avatarProps={{ src: "https://avatars.githubusercontent.com/u/121140100?v=4" }}
+							avatarProps={{
+								showFallback: true,
+								src: "https://avatars.githubusercontent.com/u/121140100?v=4",
+							}}
+						/>
+
+						<Divider orientation="horizontal" className="col-span-3" />
+
+						<User
+							name="Asakuri"
+							description={
+								<>
+									<span>Web Dev - </span>
+									<Link underline="hover" href="https://github.com/Noki-Asakuri" size="sm" isExternal>
+										@Noki-Asakuri
+									</Link>
+								</>
+							}
+							avatarProps={{
+								showFallback: true,
+								src: "https://avatars.githubusercontent.com/u/41738319?v=4",
+							}}
 						/>
 					</div>
 				</div>

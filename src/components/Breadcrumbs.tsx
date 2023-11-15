@@ -4,7 +4,7 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 
 import { BreadcrumbItem, Button, Breadcrumbs as NextBreadcrumbs } from "@nextui-org/react";
 
-import { CornerDownLeft } from "lucide-react";
+import { ChevronLeft, CornerDownLeft } from "lucide-react";
 import { useMemo } from "react";
 
 export const Breadcrumbs = () => {
@@ -38,7 +38,7 @@ export const Breadcrumbs = () => {
 				size="lg"
 				isIconOnly
 				variant="ghost"
-				startContent={<CornerDownLeft />}
+				startContent={<ChevronLeft strokeWidth={3} />}
 				onPress={() => router.back()}
 			/>
 

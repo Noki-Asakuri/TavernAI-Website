@@ -45,22 +45,9 @@ export const CharactersSlider = ({
 		});
 	}, []);
 
-	const mouseScroll = useCallback((event: WheelEvent<HTMLDivElement>) => {
-		if (!event.deltaX) return;
-
-		if (event.deltaX > 0) swipeRight();
-		else swipeLeft();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
 	return (
 		<Card className="w-max max-w-full gap-4 overflow-hidden p-6">
-			<div
-				ref={sliderRef}
-				onWheel={mouseScroll}
-				style={{ scrollbarWidth: "thin" }}
-				className="flex gap-4 overflow-scroll py-1 pb-3"
-			>
+			<div ref={sliderRef} style={{ scrollbarWidth: "thin" }} className="flex gap-4 overflow-scroll py-1 pb-3">
 				{category.characters.map((character) => (
 					<CharacterCard key={character.public_id_short} character={character} />
 				))}
