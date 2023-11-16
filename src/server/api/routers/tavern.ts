@@ -1,5 +1,5 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { formatBytes, readImages } from "~/server/utils";
+import { formatBytes, readImageData } from "~/server/utils";
 
 import { TRPCError } from "@trpc/server";
 
@@ -38,8 +38,6 @@ export const tavernRouter = createTRPCRouter({
 		)
 		.query(async ({ input }) => {
 			const { authorName, nsfw, page, perPage } = input;
-
-			console.log({ nsfw });
 
 			const res = await fetch(
 				`https://tavernai.net/api/users/${authorName}/characters?perpage=${perPage}&page=${page}&nsfw=${nsfw}`,
@@ -81,7 +79,14 @@ export const tavernRouter = createTRPCRouter({
 			count: number;
 		}[];
 
-		return { status: res.status, data: data.sort((a, b) => b.count - a.count) };
+		return {
+			status: res.status,
+			data: [
+				{ id: 0, count: undefined, name: "recent", name_view: "Recent" },
+				{ id: 1, count: undefined, name: "random", name_view: "Random" },
+				...data.sort((a, b) => b.count - a.count),
+			],
+		};
 	}),
 
 	getCharactersFromCategory: publicProcedure
@@ -109,10 +114,14 @@ export const tavernRouter = createTRPCRouter({
 
 			if (!res.ok) return { status: res.status, messages: res.statusText };
 
-			const rawData = readImages("webp", await res.arrayBuffer());
-			if (typeof rawData !== "string") throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+			const rawData = readImageData(await res.arrayBuffer(), "webp");
+			if (!rawData || rawData.status == "Failed")
+				throw new TRPCError({
+					code: "INTERNAL_SERVER_ERROR",
+					message: String(rawData?.message) ?? "Unable to read with provided card.",
+				});
 
-			const data = JSON.parse(rawData) as {
+			const data = JSON.parse(rawData.data) as {
 				public_id: string;
 				public_id_short: string;
 				user_name: string;

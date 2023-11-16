@@ -10,24 +10,6 @@ export default async function Page() {
 	return (
 		<main className="container flex max-w-7xl flex-grow flex-col gap-4">
 			<section className="flex flex-wrap gap-2">
-				<Chip
-					size="lg"
-					classNames={{ content: "flex gap-1 capitalize" }}
-					as={Link}
-					href="/characters/categories/recent"
-				>
-					<span>Recent</span>
-				</Chip>
-
-				<Chip
-					size="lg"
-					classNames={{ content: "flex gap-1 capitalize" }}
-					as={Link}
-					href="/characters/categories/random"
-				>
-					<span>Random</span>
-				</Chip>
-
 				{data?.map((category) => (
 					<Chip
 						size="lg"
@@ -37,7 +19,7 @@ export default async function Page() {
 						classNames={{ content: "flex gap-1 capitalize" }}
 					>
 						<span>{category.name_view}</span>
-						<span>({category.count})</span>
+						{typeof category.count !== "undefined" && <span>({category.count})</span>}
 					</Chip>
 				))}
 			</section>

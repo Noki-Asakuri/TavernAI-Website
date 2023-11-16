@@ -7,8 +7,10 @@ import Link from "next/link";
 
 import { Chip } from "@nextui-org/react";
 
-export const metadata: Metadata = {
-	title: "Search",
+export const generateMetadata = ({ searchParams }: { searchParams: { query?: string } }): Metadata => {
+	return {
+		title: ("Search " + searchParams.query).trim(),
+	};
 };
 
 export default async function Page({ searchParams }: { searchParams: { query?: string } }) {

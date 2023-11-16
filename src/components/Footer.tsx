@@ -5,7 +5,7 @@ export const BottomFooter = () => {
 		<footer className="container max-w-7xl flex-none py-4">
 			<Divider orientation="horizontal" />
 
-			<div className="grid grid-cols-[1fr_max-content_max-content_max-content_1fr] py-4">
+			<div className="grid grid-cols-1 gap-2 py-4 sm:grid-cols-[1fr_max-content_1fr] md:grid-cols-[1fr_max-content_max-content_max-content_1fr] md:gap-0">
 				<div className="flex flex-col items-center justify-center">
 					<h3 className="text-lg font-bold">TavernAI</h3>
 					<p className="text-center text-small">
@@ -13,11 +13,12 @@ export const BottomFooter = () => {
 					</p>
 				</div>
 
-				<Divider orientation="vertical" className="mx-4" />
+				<Divider orientation="vertical" className="mx-4 hidden sm:block" />
+				<Divider orientation="horizontal" className="my-2 sm:col-span-3 md:hidden" />
 
-				<div className="flex flex-col gap-2 text-center">
+				<div className="flex flex-col gap-2 text-center sm:col-span-3 md:col-span-1">
 					<h3 className="text-lg font-bold">Credits</h3>
-					<div className="grid grid-cols-1 gap-y-2 px-6">
+					<div className="grid grid-cols-1 gap-y-2 sm:grid-cols-[1fr_max-content_1fr] md:grid-cols-1 md:px-6">
 						<User
 							name="Humi"
 							description={
@@ -34,7 +35,8 @@ export const BottomFooter = () => {
 							}}
 						/>
 
-						<Divider orientation="horizontal" className="col-span-3" />
+						<Divider orientation="horizontal" className="col-span-3 block sm:hidden md:block" />
+						<Divider orientation="vertical" className="hidden sm:block md:hidden" />
 
 						<User
 							name="Asakuri"
@@ -54,9 +56,10 @@ export const BottomFooter = () => {
 					</div>
 				</div>
 
-				<Divider orientation="vertical" className="mx-4" />
+				<Divider orientation="vertical" className="mx-4 hidden md:block" />
+				<Divider orientation="horizontal" className="my-2 block sm:hidden" />
 
-				<div className="flex flex-col items-center justify-center">
+				<div className="flex flex-col items-center justify-center sm:col-start-3 sm:row-start-1 md:col-start-auto md:row-start-auto">
 					<h3 className="text-lg font-bold">Link</h3>
 					<div className="grid grid-cols-[1fr_max-content_1fr] gap-x-4 gap-y-2">
 						<Link href="https://github.com/TavernAI/TavernAI" isExternal underline="hover">

@@ -85,6 +85,9 @@ devDependencies:
   '@types/png-chunk-text':
     specifier: ^1.0.3
     version: 1.0.3
+  '@types/png-chunks-encode':
+    specifier: ^1.0.2
+    version: 1.0.2
   '@types/png-chunks-extract':
     specifier: ^1.0.2
     version: 1.0.2
@@ -2890,6 +2893,10 @@ packages:
 
   /@types/png-chunk-text@1.0.3:
     resolution: {integrity: sha512-7keEFz73uNJ9Ar1XMCNnHEXT9pICJnouMQCCYgBEmHMgdkXaQzSTmSvr6tUDSqgdEgmlRAxZd97wprgliyZoCg==}
+    dev: true
+
+  /@types/png-chunks-encode@1.0.2:
+    resolution: {integrity: sha512-Dxn0aXEcSg1wVeHjvNlygm/+fKBDzWMCdxJYhjGUTeefFW/jYxWcrg+W7ppLBfH44iJMqeVBHtHBwtYQUeYvgw==}
     dev: true
 
   /@types/png-chunks-extract@1.0.2:

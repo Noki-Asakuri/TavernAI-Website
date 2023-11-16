@@ -1,13 +1,12 @@
 import { Author } from "~/components/characters/Author";
-import { CharacterCard } from "~/components/characters/CharacterCard";
 import { api } from "~/trpc/server";
 
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import NextLink from "next/link";
-import { RedirectType, notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
-import { Avatar, Button, Link, Pagination } from "@nextui-org/react";
+import { Avatar, Button, Link } from "@nextui-org/react";
 
 import { cache } from "react";
 
@@ -22,7 +21,6 @@ const getData = cache(async ({ author, page }: { author: string; page: string })
 
 export const generateMetadata = async ({ params: { author } }: { params: { author: string } }): Promise<Metadata> => {
 	const data = await getData({ author, page: "1" });
-
 	if (!data.data) return { title: data.messages };
 
 	return { title: data.data.name_view };

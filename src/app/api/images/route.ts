@@ -1,4 +1,4 @@
-import sharp from "sharp";
+import { readImageData, writeDataToImage } from "~/server/utils";
 
 export const GET = async (req: Request) => {
 	const url = new URL(req.url);
@@ -12,7 +12,12 @@ export const GET = async (req: Request) => {
 
 	if (type === "png") {
 		const imageArrayBuffer = await res.arrayBuffer();
-		const imageBuffer = await sharp(imageArrayBuffer).toFormat("png").toBuffer();
+		const data = readImageData(imageArrayBuffer, "webp");
+
+		if (!data || data.status === "Failed")
+			return new Response(JSON.stringify({ error: data?.message }), { status: 500 });
+
+		const imageBuffer = await writeDataToImage(imageArrayBuffer, data.data, "png");
 
 		return new Response(imageBuffer, { headers: { "Content-Type": "image/png" } });
 	}

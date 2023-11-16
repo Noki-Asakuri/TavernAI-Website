@@ -1,10 +1,10 @@
 "use client";
 
-import { type TextAreaProps, Textarea } from "@nextui-org/react";
+import { type TextAreaProps, Textarea, cn } from "@nextui-org/react";
 
 import { useLayoutEffect, useRef } from "react";
 
-export const AutoResizeTextArea = (props: TextAreaProps) => {
+export const AutoResizeTextArea = ({ classNames, ...props }: TextAreaProps) => {
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 
 	useLayoutEffect(() => {
@@ -14,5 +14,19 @@ export const AutoResizeTextArea = (props: TextAreaProps) => {
 		textareaRef.current.style.height = height + "px";
 	}, []);
 
-	return <Textarea {...props} ref={textareaRef} />;
+	return (
+		<Textarea
+			isReadOnly
+			disableAutosize
+			labelPlacement="outside"
+			ref={textareaRef}
+			variant="faded"
+			{...props}
+			classNames={{
+				...classNames,
+				label: cn("text-2xl font-semibold", classNames?.label),
+				input: cn("text-lg resize-y", classNames?.input),
+			}}
+		/>
+	);
 };

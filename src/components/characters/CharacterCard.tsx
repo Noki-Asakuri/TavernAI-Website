@@ -15,31 +15,31 @@ type CharacterType = NonNullable<RouterOutputs["tavern"]["getBoard"]["data"]>[nu
 export const CharacterCard = ({ character }: { character: CharacterType }) => {
 	const blurNSFW = useStore(useBlurNSFW, (state) => ({ blurNSFW: state.blurNSFW }));
 
-	const [isNSFW, setNSFW] = useState(character.nsfw === 1);
+	const [isNSFW, setNSFW] = useState(character.nsfw === 1 && blurNSFW.blurNSFW);
 
 	return (
 		<Card radius="lg" className="aspect-[2/3] w-60 flex-shrink-0 flex-grow-0 border-none">
-			{blurNSFW.blurNSFW && isNSFW && (
+			{isNSFW && (
 				<button className="relative aspect-[2/3]" onClick={() => setNSFW(false)}>
 					<Chip
 						color="danger"
 						size="lg"
-						className="absolute left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2"
+						className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2"
 					>
 						NSFW
 					</Chip>
+
 					<Image
 						alt={character.short_description.replaceAll("{{char}}", character.name)}
 						src={`https://tavernai.net/${character.user_name_view}/${character.public_id_short}.webp`}
 						classNames={{ wrapper: "w-full aspect-[2/3]", img: "w-full blur-lg" }}
 						loading="lazy"
 						width={240}
-						isBlurred
 					/>
 				</button>
 			)}
 
-			{(!blurNSFW.blurNSFW || !isNSFW) && (
+			{!isNSFW && (
 				<Link
 					className="aspect-[2/3]"
 					href={`/characters/${character.user_name_view}/${character.name}/${character.public_id_short}`}
@@ -50,7 +50,6 @@ export const CharacterCard = ({ character }: { character: CharacterType }) => {
 						classNames={{ wrapper: "w-full aspect-[2/3]", img: "w-full" }}
 						loading="lazy"
 						width={240}
-						isBlurred
 					/>
 				</Link>
 			)}

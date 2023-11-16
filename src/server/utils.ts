@@ -1,8 +1,66 @@
 import ExifReader from "exifreader";
 import PNGtext from "png-chunk-text";
+import encode from "png-chunks-encode";
 import extract from "png-chunks-extract";
+import sharp from "sharp";
 
-export const readImages = (input_format: "png" | "webp", data: ArrayBuffer) => {
+type Success = {
+	status: "Success";
+	data: string;
+};
+
+type Failure = {
+	status: "Failed";
+	message: unknown;
+};
+
+export const writeDataToImage = async (
+	imageBuffer: Buffer | ArrayBuffer,
+	data: string,
+	format: "webp" | "png" = "png",
+): Promise<Buffer | undefined> => {
+	const utf8Encode = new TextEncoder();
+
+	try {
+		// Load the image in any format
+		switch (format) {
+			case "webp":
+				const stringByteArray = utf8Encode.encode(data).toString();
+
+				const processedImage = await sharp(imageBuffer)
+					.resize(400, 600)
+					.webp({ quality: 95 })
+					.withMetadata({ exif: { IFD0: { UserComment: stringByteArray } } })
+					.toBuffer();
+
+				return processedImage;
+
+			case "png":
+				const image = await sharp(imageBuffer).resize(400, 600).toFormat("png").toBuffer(); // old 170 234
+
+				// Get the chunks
+				const chunks = extract(image);
+				const tEXtChunks = chunks.filter((chunk) => chunk.name === "tEXt");
+
+				// Remove all existing tEXt chunks
+				for (const tEXtChunk of tEXtChunks) {
+					chunks.splice(chunks.indexOf(tEXtChunk), 1);
+				}
+				// Add new chunks before the IEND chunk
+				const base64EncodedData = Buffer.from(data, "utf8").toString("base64");
+				chunks.splice(-1, 0, PNGtext.encode("chara", base64EncodedData));
+
+				return Buffer.from(encode(chunks));
+
+			default:
+				break;
+		}
+	} catch (err) {
+		throw err;
+	}
+};
+
+export const readImageData = (data: ArrayBuffer, input_format: "png" | "webp"): Success | Failure | undefined => {
 	const utf8Decode = new TextDecoder("utf-8", { ignoreBOM: true });
 
 	switch (input_format) {
@@ -24,29 +82,26 @@ export const readImages = (input_format: "png" | "webp", data: ArrayBuffer) => {
 						const char_data_string = utf8Decode.decode(uint8Array);
 						char_data = char_data_string;
 					}
+
+					return { status: "Success", data: char_data };
 				} else {
 					console.log("No description found in EXIF data.");
-					return false;
+					return { status: "Failed", message: "No description found in EXIF data." };
 				}
-				return char_data;
-			} catch (err) {
+			} catch (err: unknown) {
 				console.log(err);
-				return false;
+				return { status: "Failed", message: err instanceof Error ? err.message : err };
 			}
 
 		case "png":
 			const chunks = extract(new Uint8Array(data));
 
 			const textChunks = chunks
-				.filter(function (chunk) {
-					return chunk.name === "tEXt";
-				})
-				.map(function (chunk) {
-					return PNGtext.decode(chunk.data);
-				});
+				.filter((chunk) => chunk.name === "tEXt")
+				.map((chunk) => PNGtext.decode(chunk.data));
 
 			const base64DecodedData = Buffer.from(textChunks[0]!.text, "base64").toString("utf8");
-			return base64DecodedData;
+			return { status: "Success", data: base64DecodedData };
 
 		default:
 			break;

@@ -1,8 +1,13 @@
 import { CharacterCard } from "~/components/characters/CharacterCard";
 import { api } from "~/trpc/server";
 
+import { cookies } from "next/headers";
+
 export default async function Page({ params: { category } }: { params: { category: string } }) {
-	const { data } = await api.tavern.getCharactersFromCategory.query({ category, nsfw: false });
+	const { data } = await api.tavern.getCharactersFromCategory.query({
+		category,
+		nsfw: cookies().get("nsfw")?.value === "true",
+	});
 
 	return (
 		<main className="container flex max-w-7xl flex-grow flex-col gap-4">
