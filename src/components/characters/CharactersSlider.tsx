@@ -7,7 +7,7 @@ import { CharacterCard } from "./CharacterCard";
 import { Button, Card } from "@nextui-org/react";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { type WheelEvent, useCallback, useRef } from "react";
+import { useCallback, useRef } from "react";
 
 export const CharactersSlider = ({
 	category,
@@ -45,8 +45,10 @@ export const CharactersSlider = ({
 		});
 	}, []);
 
+	if (category.characters.length === 0) return false;
+
 	return (
-		<Card className="w-max max-w-full gap-4 overflow-hidden p-6">
+		<Card className="w-max max-w-full gap-4 overflow-hidden bg-opacity-40 p-6 backdrop-blur-lg backdrop-filter">
 			<div ref={sliderRef} style={{ scrollbarWidth: "thin" }} className="flex gap-4 overflow-scroll py-1 pb-3">
 				{category.characters.map((character) => (
 					<CharacterCard key={character.public_id_short} character={character} />

@@ -66,6 +66,7 @@ export default async function Page({ params }: { params: { author: string; publi
 						<Input
 							isReadOnly
 							label="Name"
+							variant="bordered"
 							labelPlacement="outside"
 							classNames={{
 								base: "data-[has-label=true]:mt-0 pt-8",
@@ -78,23 +79,24 @@ export default async function Page({ params }: { params: { author: string; publi
 						<section className="flex flex-col gap-2">
 							<label className="text-2xl font-semibold">Author</label>
 
-							<div className="flex items-center gap-4">
+							<div className="flex flex-col items-center gap-4 sm:flex-row">
 								<Avatar
 									src={`https://tavernai.net/users/${data.user_name}/img/avatar.webp`}
 									className="aspect-square h-auto w-16 text-large"
 									showFallback
 								/>
 
-								<div className="flex flex-col gap-2">
+								<div className="flex flex-col items-center gap-2 sm:items-start">
 									<span className="text-2xl font-bold">{data.user_name_view}</span>
-									<span>
+									<span className="text-center sm:text-left">
 										Profile:{" "}
 										<Link
 											as={NextLink}
 											underline="hover"
+											className="text-sm sm:text-base"
 											href={`https://tavernai.net/${data.name}`}
 										>
-											https://tavernai.net/{data.name}
+											{"https://tavernai.net/" + data.user_name}
 										</Link>
 									</span>
 								</div>

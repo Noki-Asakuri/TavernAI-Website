@@ -4,7 +4,7 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 
 import { BreadcrumbItem, Button, Breadcrumbs as NextBreadcrumbs } from "@nextui-org/react";
 
-import { ChevronLeft, CornerDownLeft } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { useMemo } from "react";
 
 export const Breadcrumbs = () => {
@@ -19,11 +19,7 @@ export const Breadcrumbs = () => {
 			"TavernAI",
 			...pathName
 				.split("/")
-				.reduce((prev, curr) => {
-					if (!curr) return prev;
-
-					return [...prev, [prev.at(-1), curr].join("/")];
-				}, [] as string[])
+				.reduce((prev, curr) => (curr ? [...prev, [prev.at(-1), curr].join("/")] : prev), [] as string[])
 				.filter((path) => path.length),
 		];
 
@@ -33,11 +29,12 @@ export const Breadcrumbs = () => {
 	}, [params.public_id_short, pathName]);
 
 	return (
-		<section className="container flex max-w-7xl items-center gap-2 py-4">
+		<section className="container grid max-w-7xl grid-cols-[max-content_1fr] items-center gap-2 py-4">
 			<Button
 				size="lg"
 				isIconOnly
 				variant="ghost"
+				className="h-full"
 				startContent={<ChevronLeft strokeWidth={3} />}
 				onPress={() => router.back()}
 			/>
@@ -47,7 +44,7 @@ export const Breadcrumbs = () => {
 				radius="lg"
 				variant="bordered"
 				underline="hover"
-				classNames={{ base: "w-full", list: "w-full max-w-none" }}
+				classNames={{ base: "w-full h-full flex", list: "w-full max-w-none flex-grow" }}
 			>
 				{pathNames.map((path) => {
 					const href = path === "TavernAI" ? "/" : path;

@@ -21,7 +21,7 @@ export const ImageAction = ({ data }: { data: NonNullable<RouterOutputs["tavern"
 		urlSearchParams.set("public_id_short", data.public_id_short);
 		urlSearchParams.set("type", type);
 
-		const res = await fetch("/api/images?" + urlSearchParams.toString());
+		const res = await fetch(`/api/images/${data.user_name_view}/${data.public_id_short}.${type}`);
 		if (!res.ok) return;
 
 		const element = document.createElement("a");

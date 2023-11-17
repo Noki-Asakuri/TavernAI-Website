@@ -24,15 +24,15 @@ export const Searchbar = () => {
 	);
 
 	return (
-		<section className="container max-w-7xl py-4">
-			<Input
-				isClearable
-				startContent={<Search />}
-				value={query}
-				onClear={() => setQuery("")}
-				onValueChange={setQuery}
-				placeholder="Search..."
-			/>
-		</section>
+		<Input
+			isClearable
+			startContent={<Search />}
+			value={query}
+			size="lg"
+			labelPlacement="outside"
+			onClear={() => setQuery("")}
+			onValueChange={setQuery}
+			placeholder="Search..."
+		/>
 	);
 };

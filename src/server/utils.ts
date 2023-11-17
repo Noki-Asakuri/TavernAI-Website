@@ -28,7 +28,6 @@ export const writeDataToImage = async (
 				const stringByteArray = utf8Encode.encode(data).toString();
 
 				const processedImage = await sharp(imageBuffer)
-					.resize(400, 600)
 					.webp({ quality: 95 })
 					.withMetadata({ exif: { IFD0: { UserComment: stringByteArray } } })
 					.toBuffer();
@@ -36,7 +35,7 @@ export const writeDataToImage = async (
 				return processedImage;
 
 			case "png":
-				const image = await sharp(imageBuffer).resize(400, 600).toFormat("png").toBuffer(); // old 170 234
+				const image = await sharp(imageBuffer).toFormat("png").toBuffer(); // old 170 234
 
 				// Get the chunks
 				const chunks = extract(image);
@@ -46,6 +45,7 @@ export const writeDataToImage = async (
 				for (const tEXtChunk of tEXtChunks) {
 					chunks.splice(chunks.indexOf(tEXtChunk), 1);
 				}
+
 				// Add new chunks before the IEND chunk
 				const base64EncodedData = Buffer.from(data, "utf8").toString("base64");
 				chunks.splice(-1, 0, PNGtext.encode("chara", base64EncodedData));

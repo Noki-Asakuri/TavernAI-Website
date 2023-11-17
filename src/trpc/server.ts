@@ -16,10 +16,7 @@ export const api = createTRPCProxyClient<AppRouter>({
 		unstable_httpBatchStreamLink({
 			url: getUrl(),
 			headers() {
-				return {
-					cookie: cookies().toString(),
-					"x-trpc-source": "rsc",
-				};
+				return { cookie: cookies().toString(), "x-trpc-source": "rsc" };
 			},
 		}),
 	],

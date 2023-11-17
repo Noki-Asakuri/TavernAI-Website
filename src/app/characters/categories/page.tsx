@@ -14,6 +14,7 @@ export default async function Page() {
 					<Chip
 						size="lg"
 						as={Link}
+						variant="shadow"
 						key={category.name}
 						href={"/characters/categories/" + category.name}
 						classNames={{ content: "flex gap-1 capitalize" }}

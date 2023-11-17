@@ -54,10 +54,10 @@ export const CharacterCard = ({ character }: { character: CharacterType }) => {
 				</Link>
 			)}
 
-			<CardFooter className="absolute bottom-0 z-10 flex-col items-start bg-gradient-to-t from-black via-black/70 to-transparent">
-				<h3>
-					<Link href={"/characters/" + character.user_name_view}>@{character.user_name_view}</Link>
-				</h3>
+			<CardFooter className="absolute bottom-0 z-10 flex-col items-start bg-gradient-to-t from-black via-black/70 to-transparent text-white">
+				<Link href={"/characters/" + character.user_name_view}>
+					<h3>@{character.user_name_view}</h3>
+				</Link>
 				<span className="text-lg">{character.name}</span>
 				<p className="line-clamp-2 text-small">
 					{character.short_description.replaceAll("{{char}}", character.name)}

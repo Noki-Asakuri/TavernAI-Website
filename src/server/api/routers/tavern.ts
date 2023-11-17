@@ -67,27 +67,28 @@ export const tavernRouter = createTRPCRouter({
 			return { status: res.status, data };
 		}),
 
-	getCategories: publicProcedure.query(async () => {
-		const res = await fetch(`https://tavernai.net/api/categories`);
+	getCategories: publicProcedure
+		.input(z.object({ limit: z.number().nullish() }).nullish())
+		.query(async ({ input }) => {
+			const res = await fetch(`https://tavernai.net/api/categories`);
 
-		if (!res.ok) return { status: res.status, messages: res.statusText };
+			if (!res.ok) return { status: res.status, messages: res.statusText };
 
-		const data = (await res.json()) as {
-			id: number;
-			name: string;
-			name_view: string;
-			count: number;
-		}[];
+			let data = ((await res.json()) as { id: number; name: string; name_view: string; count: number }[]).sort(
+				(a, b) => b.count - a.count,
+			);
 
-		return {
-			status: res.status,
-			data: [
-				{ id: 0, count: undefined, name: "recent", name_view: "Recent" },
-				{ id: 1, count: undefined, name: "random", name_view: "Random" },
-				...data.sort((a, b) => b.count - a.count),
-			],
-		};
-	}),
+			if (input?.limit) data = data.slice(0, input.limit);
+
+			return {
+				status: res.status,
+				data: [
+					{ id: 0, count: undefined, name: "recent", name_view: "Recent" },
+					{ id: 1, count: undefined, name: "random", name_view: "Random" },
+					...data,
+				],
+			};
+		}),
 
 	getCharactersFromCategory: publicProcedure
 		.input(z.object({ category: z.string(), nsfw: z.boolean().transform((value) => (value ? "on" : "off")) }))
