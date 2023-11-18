@@ -3,9 +3,11 @@
 import { useBlurNSFW } from "~/server/store";
 import type { RouterOutputs } from "~/trpc/shared";
 
+import { LazyImage } from "../common/LazyImage";
+
 import Link from "next/link";
 
-import { Card, CardFooter, Chip, Image, Tooltip, cn } from "@nextui-org/react";
+import { Card, CardFooter, Chip, Tooltip, cn } from "@nextui-org/react";
 
 import { useState } from "react";
 import { useUpdateEffect } from "react-use";
@@ -57,7 +59,7 @@ export const CharacterCard = ({ character }: { character: CharacterType }) => {
 					</Chip>
 				)}
 
-				<Image
+				<LazyImage
 					alt={character.short_description.replaceAll("{{char}}", character.name)}
 					src={`https://tavernai.net/${character.user_name_view}/${character.public_id_short}.webp`}
 					classNames={{

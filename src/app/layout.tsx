@@ -33,6 +33,9 @@ export const metadata: Metadata = {
 		description:
 			"TavernAI is a adventure atmospheric chat and it works with api like KoboldAI, NovelAI, Pygmalion, OpenAI ChatGPT.",
 	},
+	metadataBase: new URL(
+		process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : `http://localhost:${process.env.PORT ?? 3000}`,
+	),
 };
 
 export const viewport: Viewport = {
