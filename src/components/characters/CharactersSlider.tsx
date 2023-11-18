@@ -56,8 +56,20 @@ export const CharactersSlider = ({
 			</div>
 
 			<div className="flex items-center justify-between">
-				<Button variant="flat" size="sm" startContent={<ChevronLeft />} onPress={swipeLeft} />
-				<Button variant="flat" size="sm" startContent={<ChevronRight />} onPress={swipeRight} />
+				<Button
+					aria-label={`Back button for category ${category.name_view}`}
+					variant="flat"
+					size="sm"
+					startContent={<ChevronLeft />}
+					onPress={swipeLeft}
+				/>
+				<Button
+					aria-label={`Foward button for category ${category.name_view}`}
+					variant="flat"
+					size="sm"
+					startContent={<ChevronRight />}
+					onPress={swipeRight}
+				/>
 			</div>
 		</Card>
 	);

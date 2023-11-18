@@ -23,7 +23,7 @@ export const BottomFooter = () => {
 							name="Humi"
 							description={
 								<>
-									<span>Original Dev - </span>
+									<span className="text-black dark:text-white">Original Dev - </span>
 									<Link underline="hover" href="https://github.com/TavernAI" size="sm" isExternal>
 										@TavernAI
 									</Link>
@@ -42,7 +42,7 @@ export const BottomFooter = () => {
 							name="Asakuri"
 							description={
 								<>
-									<span>Web Dev - </span>
+									<span className="text-black dark:text-white">Web Dev - </span>
 									<Link underline="hover" href="https://github.com/Noki-Asakuri" size="sm" isExternal>
 										@Noki-Asakuri
 									</Link>

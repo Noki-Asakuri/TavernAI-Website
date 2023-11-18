@@ -22,6 +22,7 @@ export const AutoResizeTextArea = ({ classNames, ...props }: TextAreaProps) => {
 			ref={textareaRef}
 			variant="faded"
 			{...props}
+			style={{ ...props.style, scrollbarWidth: "thin" }}
 			classNames={{
 				...classNames,
 				label: cn("text-2xl font-semibold", classNames?.label),

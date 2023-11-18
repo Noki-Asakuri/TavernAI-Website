@@ -15,11 +15,12 @@ export function ThemeSwitcher() {
 		setMounted(true);
 	}, []);
 
-	if (!mounted) return <Button isIconOnly isLoading />;
+	if (!mounted) return <Button isIconOnly isLoading aria-label="ThemeSwitcher" />;
 
 	return (
 		<Button
 			isIconOnly
+			aria-label="ThemeSwitcher"
 			onPress={() => setTheme(theme === "light" ? "dark" : "light")}
 			startContent={theme === "light" ? <Sun /> : <Moon />}
 		/>

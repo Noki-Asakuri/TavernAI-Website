@@ -25,6 +25,7 @@ export const generateMetadata = async ({
 
 	return {
 		title: data.data.name,
+		twitter: { card: "summary" },
 		openGraph: {
 			type: "website",
 			title: data.data.name + " - TavernAI",

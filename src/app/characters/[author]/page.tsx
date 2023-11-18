@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
 
-import { Avatar, Button, Link } from "@nextui-org/react";
+import { Avatar, Button, Divider, Link } from "@nextui-org/react";
 
 import { cache } from "react";
 
@@ -56,7 +56,9 @@ export default async function Page({
 				</div>
 			</section>
 
-			<Author initialData={data} nsfw={cookies().get("nsfw")?.value === "true"} page={Number(page ?? "1")} />
+			<Divider orientation="horizontal" />
+
+			<Author data={data} page={Number(page ?? "1")} />
 		</main>
 	);
 }

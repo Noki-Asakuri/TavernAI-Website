@@ -33,6 +33,7 @@ export const Breadcrumbs = () => {
 			<Button
 				size="lg"
 				isIconOnly
+				aria-label="Back"
 				variant="ghost"
 				className="h-full"
 				startContent={<ChevronLeft strokeWidth={3} />}

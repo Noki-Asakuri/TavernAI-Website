@@ -12,10 +12,9 @@ import { useStore } from "zustand";
 const Settings = () => {
 	const router = useRouter();
 
-	const blurNSFW = useStore(useBlurNSFW, (state) => ({
-		blurNSFW: state.blurNSFW,
-		disable: state.disable,
-		enable: state.enable,
+	const state = useStore(useBlurNSFW, (state) => ({
+		isBlurNSFW: state.isBlurNSFW,
+		toggle: state.toggle,
 	}));
 
 	const [NSFW, setNSFW] = useCookie("nsfw");
@@ -26,18 +25,14 @@ const Settings = () => {
 
 	return (
 		<div className="grid w-max grid-cols-[1fr_max-content_1fr] gap-2">
-			<Switch
-				defaultSelected={blurNSFW ? blurNSFW.blurNSFW : false}
-				color="danger"
-				onValueChange={(value) => (value ? blurNSFW.enable() : blurNSFW.disable())}
-			>
+			<Switch color="danger" onValueChange={() => state.toggle()} defaultSelected={state.isBlurNSFW ?? false}>
 				Blur NSFW
 			</Switch>
 
 			<Divider orientation="vertical" />
 
 			<Switch
-				defaultSelected={NSFW ? NSFW.toLowerCase() === "true" : false}
+				defaultSelected={NSFW?.toLowerCase() === "true" ?? false}
 				color="primary"
 				onValueChange={(value) => setNSFW(String(value))}
 			>

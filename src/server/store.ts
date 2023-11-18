@@ -1,16 +1,23 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export const useBlurNSFW = create<{ blurNSFW: boolean; disable: () => void; enable: () => void }>()(
+type States = {
+	isBlurNSFW: boolean;
+};
+
+type Actions = {
+	toggle: () => void;
+};
+
+export const useBlurNSFW = create<States & Actions>()(
 	persist(
 		(set) => ({
-			blurNSFW: true,
-			disable: () => set({ blurNSFW: false }),
-			enable: () => set({ blurNSFW: true }),
+			isBlurNSFW: true,
+			toggle: () => set(({ isBlurNSFW }) => ({ isBlurNSFW: !isBlurNSFW })),
 		}),
 		{
 			name: "blurNSFW-storage",
-			partialize: (state) => ({ blurNSFW: state.blurNSFW }),
+			partialize: (state) => ({ isBlurNSFW: state.isBlurNSFW }),
 		},
 	),
 );

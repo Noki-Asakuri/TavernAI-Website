@@ -7,12 +7,20 @@ import { Button, ButtonGroup, Chip, Image, cn } from "@nextui-org/react";
 
 import { ImageDown } from "lucide-react";
 import { useState } from "react";
+import { useUpdateEffect } from "react-use";
 import { useStore } from "zustand";
 
 export const ImageAction = ({ data }: { data: NonNullable<RouterOutputs["tavern"]["getCharacter"]["data"]> }) => {
-	const settings = useStore(useBlurNSFW, (state) => ({ blurNSFW: state.blurNSFW }));
+	const state = useStore(useBlurNSFW, (state) => ({ isBlurNSFW: state.isBlurNSFW }));
+	const [isNSFW, setNSFW] = useState(data.nsfw);
 
-	const [isBlurred, setBlur] = useState(data.nsfw && settings.blurNSFW);
+	const blurNSFW = isNSFW && state.isBlurNSFW;
+
+	useUpdateEffect(() => {
+		const unsubscribe = useBlurNSFW.subscribe(() => setNSFW(data.nsfw));
+
+		return () => unsubscribe();
+	}, [state.isBlurNSFW]);
 
 	const downloadFile = async (type: "png" | "webp") => {
 		const urlSearchParams = new URLSearchParams();
@@ -35,29 +43,37 @@ export const ImageAction = ({ data }: { data: NonNullable<RouterOutputs["tavern"
 
 	return (
 		<div className="flex flex-col">
-			<button
-				className={cn("relative isolate", { "pointer-events-none": !isBlurred })}
-				onClick={() => setBlur(false)}
-			>
-				{isBlurred && (
-					<Chip
-						color="danger"
-						size="lg"
-						className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2"
-					>
-						NSFW
-					</Chip>
-				)}
+			<div className="relative isolate">
+				<button
+					className={cn("absolute z-30 h-full w-full", { hidden: !blurNSFW })}
+					onClick={() => setNSFW(false)}
+				/>
+
+				<Chip
+					size="lg"
+					as={"button"}
+					color="danger"
+					className={cn("absolute right-1 top-1 z-20 transition-[top,left]", {
+						"left-[calc(50%-35.1px)] top-[calc(50%-16px)]": blurNSFW,
+					})}
+					onClick={() => {
+						if (state.isBlurNSFW && !isNSFW) setNSFW(true);
+					}}
+				>
+					NSFW
+				</Chip>
 
 				<Image
 					alt={data.short_description}
 					classNames={{
 						wrapper: "overflow-hidden rounded-b-none !max-w-none md:!max-w-xs",
-						img: cn("aspect-[2/3] md:w-80 w-full !transition-all blur-none", { "blur-lg": isBlurred }),
+						img: cn("aspect-[2/3] md:w-80 w-full !transition-[transform,opacity,filter] blur-none", {
+							"blur-lg": blurNSFW,
+						}),
 					}}
 					src={`https://tavernai.net/${data.user_name_view}/${data.public_id_short}.webp`}
 				/>
-			</button>
+			</div>
 
 			<ButtonGroup fullWidth radius="none">
 				<Button
