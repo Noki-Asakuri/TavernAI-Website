@@ -5,7 +5,7 @@ import type { RouterOutputs } from "~/trpc/shared";
 
 import { Button, ButtonGroup, Chip, Image, cn } from "@nextui-org/react";
 
-import { ImageDown } from "lucide-react";
+import { Eye, EyeOff, ImageDown } from "lucide-react";
 import { useState } from "react";
 import { useUpdateEffect } from "react-use";
 import { useStore } from "zustand";
@@ -44,24 +44,33 @@ export const ImageAction = ({ data }: { data: NonNullable<RouterOutputs["tavern"
 	return (
 		<div className="flex flex-col">
 			<div className="relative isolate">
+				<Button
+					isIconOnly
+					size="sm"
+					className="absolute right-1 top-1 z-20"
+					onPress={() => setNSFW((prev) => !prev)}
+				>
+					{blurNSFW ? <Eye size={20} /> : <EyeOff size={20} />}
+				</Button>
+
 				<button
 					className={cn("absolute z-30 h-full w-full", { hidden: !blurNSFW })}
 					onClick={() => setNSFW(false)}
 				/>
 
-				<Chip
-					size="lg"
-					as={"button"}
-					color="danger"
-					className={cn("absolute right-1 top-1 z-20 transition-[top,left]", {
-						"left-[calc(50%-35.1px)] top-[calc(50%-16px)]": blurNSFW,
-					})}
-					onClick={() => {
-						if (state.isBlurNSFW && !isNSFW) setNSFW(true);
-					}}
-				>
-					NSFW
-				</Chip>
+				{data.nsfw && (
+					<Chip
+						color="danger"
+						size="lg"
+						className={cn(
+							"absolute z-20 opacity-0 transition-opacity",
+							"left-[calc(50%-35.1px)] top-[calc(50%-16px)]",
+							{ "opacity-100": blurNSFW },
+						)}
+					>
+						NSFW
+					</Chip>
+				)}
 
 				<Image
 					alt={data.short_description}

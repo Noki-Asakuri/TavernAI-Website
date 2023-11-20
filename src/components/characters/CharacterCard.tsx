@@ -7,8 +7,9 @@ import { LazyImage } from "../common/LazyImage";
 
 import Link from "next/link";
 
-import { Card, CardFooter, Chip, Tooltip, cn } from "@nextui-org/react";
+import { Button, Card, CardFooter, Chip, Tooltip, cn } from "@nextui-org/react";
 
+import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useUpdateEffect } from "react-use";
 import { useStore } from "zustand";
@@ -28,9 +29,18 @@ export const CharacterCard = ({ character }: { character: CharacterType }) => {
 	}, [state.isBlurNSFW]);
 
 	return (
-		<Card radius="lg" className="aspect-[2/3] w-60 flex-shrink-0 flex-grow-0 border-none">
+		<Card radius="lg" className="relative aspect-[2/3] w-60 flex-shrink-0 flex-grow-0 border-none">
+			<Button
+				isIconOnly
+				size="sm"
+				className="absolute right-1 top-1 z-20"
+				onPress={() => setNSFW((prev) => !prev)}
+			>
+				{blurNSFW ? <Eye size={20} /> : <EyeOff size={20} />}
+			</Button>
+
 			<Link
-				className="relative block aspect-[2/3]"
+				className="block aspect-[2/3]"
 				href={`/characters/${character.user_name_view}/${character.name}/${character.public_id_short}`}
 				onClick={(event) => {
 					if (!blurNSFW) return;
@@ -43,17 +53,11 @@ export const CharacterCard = ({ character }: { character: CharacterType }) => {
 					<Chip
 						color="danger"
 						size="lg"
-						className={cn("absolute right-1 top-1 z-20 transition-[top,left]", {
-							"left-[calc(50%-35.1px)] top-[calc(50%-16px)]": blurNSFW,
-						})}
-						onClick={(event) => {
-							if (state.isBlurNSFW && !isNSFW) {
-								event.preventDefault();
-								event.stopPropagation();
-
-								setNSFW(true);
-							}
-						}}
+						className={cn(
+							"absolute z-20 opacity-0 transition-opacity",
+							"left-[calc(50%-35.1px)] top-[calc(50%-16px)]",
+							{ "opacity-100": blurNSFW },
+						)}
 					>
 						NSFW
 					</Chip>
