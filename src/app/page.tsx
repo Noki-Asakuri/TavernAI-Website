@@ -68,11 +68,13 @@ export default async function Home() {
 			</section>
 
 			<section className="flex items-center justify-center">
-				<Link as={NextLink} href="/characters">
+				<Link as={NextLink} href="/characters" className="w-max max-w-full flex-shrink">
 					<Image
-						classNames={{ wrapper: "w-full", img: "aspect-[1.73/1] h-auto" }}
+						classNames={{
+							wrapper: "w-[550px] max-w-full aspect-[1.73/1]",
+							img: "aspect-[1.73/1] h-auto",
+						}}
 						src="https://tavernai.net/dev.jpg"
-						className="w-full"
 						alt="TavernAI"
 						width={550}
 					/>
