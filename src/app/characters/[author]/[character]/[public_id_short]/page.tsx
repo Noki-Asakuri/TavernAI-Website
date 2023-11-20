@@ -88,10 +88,13 @@ export default async function Page({ params }: { params: { author: string; publi
 								/>
 
 								<div className="flex flex-col items-center gap-2 sm:items-start">
-									<span className="text-2xl font-bold">{data.user_name_view}</span>
+									<Link as={NextLink} href={"/characters/" + data.user_name_view}>
+										<span className="text-2xl font-bold">{data.user_name_view}</span>
+									</Link>
 									<span className="text-center sm:text-left">
 										Profile:{" "}
 										<Link
+											isExternal
 											as={NextLink}
 											underline="hover"
 											className="text-sm sm:text-base"
@@ -127,7 +130,7 @@ export default async function Page({ params }: { params: { author: string; publi
 							</div>
 						)}
 
-						<AutoResizeTextArea label="Personality" defaultValue={data.personality} />
+						<AutoResizeTextArea label="Personality" defaultValue={data.personality.trim()} />
 
 						<div className="flex flex-grow items-end justify-between text-lg">
 							<span>
@@ -142,10 +145,10 @@ export default async function Page({ params }: { params: { author: string; publi
 					</section>
 
 					<section className="flex flex-col gap-4 md:col-span-3">
-						<AutoResizeTextArea label="Scenario" defaultValue={data.scenario} />
-						<AutoResizeTextArea label="Description" defaultValue={data.description} />
-						<AutoResizeTextArea label="First Message" defaultValue={data.first_mes} />
-						<AutoResizeTextArea label="Dialogues Example" defaultValue={data.mes_example} />
+						<AutoResizeTextArea label="Scenario" defaultValue={data.scenario.trim()} />
+						<AutoResizeTextArea label="Description" defaultValue={data.description.trim()} />
+						<AutoResizeTextArea label="First Message" defaultValue={data.first_mes.trim()} />
+						<AutoResizeTextArea label="Dialogues Example" defaultValue={data.mes_example.trim()} />
 					</section>
 				</div>
 			</Card>

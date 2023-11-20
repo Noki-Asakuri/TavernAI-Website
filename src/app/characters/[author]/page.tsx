@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
 
-import { Avatar, Button, Divider, Link } from "@nextui-org/react";
+import { Avatar, Button, Link } from "@nextui-org/react";
 
 import { cache } from "react";
 
@@ -55,8 +55,6 @@ export default async function Page({
 					<Button color="success">Characters: {data.charactersCount}</Button>
 				</div>
 			</section>
-
-			<Divider orientation="horizontal" />
 
 			<Author data={data} page={Number(page ?? "1")} />
 		</main>
