@@ -33,14 +33,20 @@ export const tavernRouter = createTRPCRouter({
 				authorName: z.string(),
 				perPage: z.number().min(0),
 				page: z.number(),
-				nsfw: z.boolean().refine((value) => (value ? "on" : "off")),
+				nsfw: z.boolean().transform((value) => (value ? "on" : "off")),
 			}),
 		)
 		.query(async ({ input }) => {
 			const { authorName, nsfw, page, perPage } = input;
 
+			const searchParams = new URLSearchParams();
+
+			searchParams.set("page", page.toString());
+			searchParams.set("perpage", perPage.toString());
+			searchParams.set("nsfw", nsfw);
+
 			const res = await fetch(
-				`https://tavernai.net/api/users/${authorName}/characters?perpage=${perPage}&page=${page}&nsfw=${nsfw}`,
+				`https://tavernai.net/api/users/${authorName}/characters?$${searchParams.toString()}`,
 			);
 
 			if (!res.ok) return { status: res.status, messages: res.statusText };
@@ -91,22 +97,44 @@ export const tavernRouter = createTRPCRouter({
 		}),
 
 	getCharactersFromCategory: publicProcedure
-		.input(z.object({ category: z.string(), nsfw: z.boolean().transform((value) => (value ? "on" : "off")) }))
+		.input(
+			z.object({
+				category: z.string(),
+				page: z.number(),
+				nsfw: z.boolean().transform((value) => (value ? "on" : "off")),
+			}),
+		)
 		.query(async ({ input }) => {
 			if (["random", "recent"].includes(input.category)) {
 				input.category = "$" + input.category;
 			}
 
+			const searchParams = new URLSearchParams();
+
+			searchParams.set("page", input.page.toString());
+			searchParams.set("nsfw", input.nsfw);
+
 			const res = await fetch(
-				`https://tavernai.net/api/categories/${input.category}/characters?nsfw=${input.nsfw}`,
+				`https://tavernai.net/api/categories/${input.category}/characters?${searchParams.toString()}`,
 			);
 
 			if (!res.ok) return { status: res.status, messages: res.statusText };
-
 			const data = (await res.json()) as BoardType[number]["characters"];
 
 			return { status: res.status, data };
 		}),
+
+	getCategoryCount: publicProcedure.input(z.object({ category: z.string() })).query(async ({ input }) => {
+		const res = await fetch(`https://tavernai.net/api/categories`);
+		if (!res.ok) return { status: res.status, messages: res.statusText, data: 0 };
+
+		const data = (await res.json()) as { id: number; name: string; name_view: string; count: number }[];
+
+		return {
+			status: res.status,
+			data: data.find(({ name_view }) => name_view.toLowerCase() === input.category.toLowerCase())?.count ?? 0,
+		};
+	}),
 
 	getCharacter: publicProcedure
 		.input(z.object({ author: z.string(), public_id_short: z.string() }))
