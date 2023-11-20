@@ -33,7 +33,7 @@ export default async function Page({ searchParams }: { searchParams: { query?: s
 								color="success"
 								variant="shadow"
 								className="capitalize"
-								href={"/categories/" + category.name_view.toLowerCase()}
+								href={"/categories/" + category.name}
 							>
 								{category.name_view} ({category.count})
 							</Chip>

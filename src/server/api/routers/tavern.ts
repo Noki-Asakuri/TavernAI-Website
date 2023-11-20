@@ -31,7 +31,7 @@ export const tavernRouter = createTRPCRouter({
 		.input(
 			z.object({
 				authorName: z.string(),
-				perPage: z.number().min(0),
+				perPage: z.number().min(1),
 				page: z.number(),
 				nsfw: z.boolean().transform((value) => (value ? "on" : "off")),
 			}),
@@ -46,7 +46,7 @@ export const tavernRouter = createTRPCRouter({
 			searchParams.set("nsfw", nsfw);
 
 			const res = await fetch(
-				`https://tavernai.net/api/users/${authorName}/characters?$${searchParams.toString()}`,
+				`https://tavernai.net/api/users/${authorName}/characters?${searchParams.toString()}`,
 			);
 
 			if (!res.ok) return { status: res.status, messages: res.statusText };
@@ -89,8 +89,8 @@ export const tavernRouter = createTRPCRouter({
 			return {
 				status: res.status,
 				data: [
-					{ id: 0, count: undefined, name: "recent", name_view: "Recent" },
-					{ id: 1, count: undefined, name: "random", name_view: "Random" },
+					{ id: 0, count: undefined, name: "$recent", name_view: "$Recent" },
+					{ id: 1, count: undefined, name: "$random", name_view: "$Random" },
 					...data,
 				],
 			};
@@ -105,10 +105,6 @@ export const tavernRouter = createTRPCRouter({
 			}),
 		)
 		.query(async ({ input }) => {
-			if (["random", "recent"].includes(input.category)) {
-				input.category = "$" + input.category;
-			}
-
 			const searchParams = new URLSearchParams();
 
 			searchParams.set("page", input.page.toString());
@@ -132,7 +128,7 @@ export const tavernRouter = createTRPCRouter({
 
 		return {
 			status: res.status,
-			data: data.find(({ name_view }) => name_view.toLowerCase() === input.category.toLowerCase())?.count ?? 0,
+			data: data.find(({ name_view }) => name_view.toLowerCase() === input.category.toLowerCase())?.count,
 		};
 	}),
 
@@ -187,15 +183,7 @@ export const tavernRouter = createTRPCRouter({
 
 			const data = (await res.json()) as BoardType;
 
-			return {
-				status: res.status,
-				data: data.map((data) => {
-					return {
-						...data,
-						name_view: data.name_view.startsWith("$") ? data.name_view.slice(1) : data.name_view,
-					};
-				}),
-			};
+			return { status: res.status, data };
 		}),
 
 	getSearchData: publicProcedure

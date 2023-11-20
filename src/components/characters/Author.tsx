@@ -16,10 +16,11 @@ export const Author = ({
 	page: number;
 }) => {
 	const router = useRouter();
+	const totalPages = Math.ceil(data.charactersCount / 20);
 
 	return (
 		<>
-			<section className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] place-items-center gap-4 gap-y-4 sm:gap-y-6">
+			<section className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] place-items-center gap-3 gap-y-4 sm:gap-y-6">
 				<h3 className="col-span-full text-2xl font-semibold">Characters ({data.charactersCount})</h3>
 
 				<Divider orientation="horizontal" className="col-span-full" />
@@ -52,11 +53,12 @@ export const Author = ({
 					size="lg"
 					showShadow
 					page={page}
-					showControls
+					showControls={totalPages > 1}
+					isDisabled={totalPages === 1}
 					onChange={(value) =>
 						router.replace(`/characters/${data.name_view}?page=${value}`, { scroll: true })
 					}
-					total={Math.ceil(data.charactersCount / 20)}
+					total={totalPages}
 				/>
 			</section>
 		</>

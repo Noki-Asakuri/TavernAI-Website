@@ -14,9 +14,7 @@ export const Characters = async () => {
 				return (
 					<div key={["characters", category.name].join()} className="flex flex-col gap-2">
 						<h2 className="text-xl font-bold capitalize">
-							<Link href={"/characters/categories/" + category.name_view.toLowerCase()}>
-								{category.name_view}
-							</Link>
+							<Link href={"/characters/categories/" + category.name}>{category.name_view}</Link>
 						</h2>
 
 						<CharactersSlider category={category} />

@@ -22,7 +22,7 @@ export const Categories = async () => {
 						variant="shadow"
 						className="capitalize"
 						key={["category", category.name].join()}
-						href={"/characters/categories/" + category.name_view.toLowerCase()}
+						href={"/characters/categories/" + category.name}
 					>
 						{category.name_view} {(category.count ?? 0) > 0 && <>({category.count})</>}
 					</Chip>

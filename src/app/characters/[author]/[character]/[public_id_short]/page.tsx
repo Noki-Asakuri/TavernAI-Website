@@ -88,7 +88,7 @@ export default async function Page({ params }: { params: { author: string; publi
 								/>
 
 								<div className="flex flex-col items-center gap-2 sm:items-start">
-									<Link as={NextLink} href={"/characters/" + data.user_name_view}>
+									<Link as={NextLink} href={"/characters/" + data.user_name_view} underline="hover">
 										<span className="text-2xl font-bold">{data.user_name_view}</span>
 									</Link>
 									<span className="text-center sm:text-left">

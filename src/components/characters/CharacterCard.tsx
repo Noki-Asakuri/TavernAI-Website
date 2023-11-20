@@ -77,7 +77,7 @@ export const CharacterCard = ({ character }: { character: CharacterType }) => {
 				/>
 			</Link>
 
-			<CardFooter className="absolute bottom-0 z-10 flex-col items-start bg-gradient-to-t from-black via-black/70 to-transparent text-white">
+			<CardFooter className="absolute bottom-0 z-10 min-h-[40%] flex-col items-start justify-end bg-gradient-to-t from-black to-transparent text-white">
 				<Link href={"/characters/" + character.user_name_view}>
 					<h3>@{character.user_name_view}</h3>
 				</Link>
