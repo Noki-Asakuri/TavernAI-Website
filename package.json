@@ -19,7 +19,7 @@
 		"exifreader": "^4.16.0",
 		"framer-motion": "^10.16.5",
 		"lucide-react": "^0.292.0",
-		"next": "^14.0.3",
+		"next": "14.0.4-canary.9",
 		"next-themes": "^0.2.1",
 		"png-chunk-text": "^1.0.0",
 		"png-chunks-encode": "^1.0.0",
