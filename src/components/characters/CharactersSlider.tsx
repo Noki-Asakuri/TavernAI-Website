@@ -72,7 +72,7 @@ export const CharactersSlider = ({
 
 	return (
 		<Card className="w-max max-w-full gap-4 overflow-hidden bg-opacity-40 p-6 backdrop-blur-lg backdrop-filter">
-			<div ref={sliderRef} style={{ scrollbarWidth: "thin" }} className="flex gap-4 overflow-scroll py-1 pb-3">
+			<div ref={sliderRef} className="flex gap-4 overflow-x-scroll py-1 pb-3">
 				{category.characters.map((character) => (
 					<CharacterCard key={character.public_id_short} character={character} />
 				))}
