@@ -65,6 +65,9 @@ dependencies:
   superjson:
     specifier: ^2.2.1
     version: 2.2.1
+  tiktoken:
+    specifier: ^1.0.11
+    version: 1.0.11
   zod:
     specifier: ^3.22.4
     version: 3.22.4
@@ -5871,6 +5874,10 @@ packages:
   /throttle-debounce@3.0.1:
     resolution: {integrity: sha512-dTEWWNu6JmeVXY0ZYoPuH5cRIwc0MeGbJwah9KUNYSJwommQpCzTySTpEe8Gs1J23aeWEuAobe4Ag7EHVt/LOg==}
     engines: {node: '>=10'}
+    dev: false
+
+  /tiktoken@1.0.11:
+    resolution: {integrity: sha512-aMJcn9NGmb6zDXkCweJLnACyIyjdiYIk1odAfnCUvin7O1QsV1rQP1hatGDMhQovxkeSJhFeU7QuGkbDHGciDQ==}
     dev: false
 
   /to-fast-properties@2.0.0:

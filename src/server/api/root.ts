@@ -1,5 +1,7 @@
-import { tavernRouter } from "~/server/api/routers/tavern";
 import { createTRPCRouter } from "~/server/api/trpc";
+
+import { tavernRouter } from "./routers/tavern";
+import { tokenRouter } from "./routers/tokens";
 
 /**
  * This is the primary router for your server.
@@ -8,6 +10,7 @@ import { createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
 	tavern: tavernRouter,
+	token: tokenRouter,
 });
 
 // export type definition of API

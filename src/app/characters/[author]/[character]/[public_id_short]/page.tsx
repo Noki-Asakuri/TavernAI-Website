@@ -6,10 +6,10 @@ import type { Metadata } from "next";
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
 
-import { Avatar, Card, Chip, Divider, Input, Link } from "@nextui-org/react";
+import { Avatar, Card, Chip, Divider, Input, Link, Spinner } from "@nextui-org/react";
 
 import { CheckCircle, XCircle } from "lucide-react";
-import { cache } from "react";
+import { Suspense, cache } from "react";
 
 const getData = cache(async ({ author, public_id_short }: { author: string; public_id_short: string }) => {
 	return await api.tavern.getCharacter.query({ author, public_id_short });
@@ -130,25 +130,80 @@ export default async function Page({ params }: { params: { author: string; publi
 							</div>
 						)}
 
-						<AutoResizeTextArea label="Personality" defaultValue={data.personality.trim()} />
+						<div className="flex flex-col gap-2">
+							<label className="text-2xl font-semibold">Tokens</label>
+							<div className="flex flex-wrap items-center gap-2">
+								<Suspense fallback={<Spinner />}>
+									Approximately{" "}
+									<span>
+										{await api.token.getToken.query({
+											text: [
+												data.personality,
+												data.scenario,
+												data.description,
+												data.first_mes,
+												data.mes_example,
+											]
+												.map((text) => text.trim().replace(/{{char}}/gi, data.name))
+												.join("\n\n"),
+										})}
+									</span>{" "}
+									Tokens,
+									<span>
+										{await api.token.getToken.query({
+											text: [data.personality, data.scenario, data.description]
+												.map((text) => text.trim().replace(/{{char}}/gi, data.name))
+												.join("\n\n"),
+										})}{" "}
+										Permanent
+									</span>
+								</Suspense>
+							</div>
+						</div>
+
+						<AutoResizeTextArea
+							label="Personality"
+							defaultValue={data.personality.trim()}
+							characterName={data.name}
+						/>
 
 						<div className="flex flex-grow items-end justify-between text-lg">
-							<span>
-								Creation Date:{" "}
-								{new Date(data.create_date_online).toLocaleString("en-EN", { hour12: false })}
-							</span>
+							<div className="grid w-full grid-cols-2 justify-between gap-4 lg:grid-cols-[repeat(3,max-content)]">
+								<span>
+									Creation:{" "}
+									{new Date(data.create_date_online).toLocaleString("en-EN", { hour12: false })}
+								</span>
 
-							<span>
-								Edit Date: {new Date(data.edit_date_online).toLocaleString("en-EN", { hour12: false })}
-							</span>
+								<Divider orientation="vertical" className="hidden lg:block" />
+
+								<span className="place-self-end">
+									Edit: {new Date(data.edit_date_online).toLocaleString("en-EN", { hour12: false })}
+								</span>
+							</div>
 						</div>
 					</section>
 
 					<section className="flex flex-col gap-4 md:col-span-3">
-						<AutoResizeTextArea label="Scenario" defaultValue={data.scenario.trim()} />
-						<AutoResizeTextArea label="Description" defaultValue={data.description.trim()} />
-						<AutoResizeTextArea label="First Message" defaultValue={data.first_mes.trim()} />
-						<AutoResizeTextArea label="Dialogues Example" defaultValue={data.mes_example.trim()} />
+						<AutoResizeTextArea
+							label="Scenario"
+							defaultValue={data.scenario.trim()}
+							characterName={data.name}
+						/>
+						<AutoResizeTextArea
+							label="Description"
+							defaultValue={data.description.trim()}
+							characterName={data.name}
+						/>
+						<AutoResizeTextArea
+							label="First Message"
+							defaultValue={data.first_mes.trim()}
+							characterName={data.name}
+						/>
+						<AutoResizeTextArea
+							label="Dialogues Example"
+							defaultValue={data.mes_example.trim()}
+							characterName={data.name}
+						/>
 					</section>
 				</div>
 			</Card>
