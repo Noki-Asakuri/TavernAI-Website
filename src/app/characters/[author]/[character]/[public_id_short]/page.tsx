@@ -1,4 +1,5 @@
 import { ImageAction } from "~/components/characters/ImageAction";
+import { Tokens } from "~/components/characters/Tokens";
 import { AutoResizeTextArea } from "~/components/common/TextArea";
 import { api } from "~/trpc/server";
 
@@ -132,31 +133,15 @@ export default async function Page({ params }: { params: { author: string; publi
 
 						<div className="flex flex-col gap-2">
 							<label className="text-2xl font-semibold">Tokens</label>
-							<div className="flex flex-wrap items-center gap-2">
-								<Suspense fallback={<Spinner />}>
-									Approximately{" "}
-									<span>
-										{await api.token.getToken.query({
-											text: [
-												data.personality,
-												data.scenario,
-												data.description,
-												data.first_mes,
-												data.mes_example,
-											]
-												.map((text) => text.trim().replace(/{{char}}/gi, data.name))
-												.join("\n\n"),
-										})}
-									</span>{" "}
-									Tokens,
-									<span>
-										{await api.token.getToken.query({
-											text: [data.personality, data.scenario, data.description]
-												.map((text) => text.trim().replace(/{{char}}/gi, data.name))
-												.join("\n\n"),
-										})}{" "}
-										Permanent
-									</span>
+							<div className="flex h-6 flex-wrap items-center">
+								<Suspense
+									fallback={
+										<span className="flex items-center gap-2">
+											Approximately <Spinner size="sm" />
+										</span>
+									}
+								>
+									<Tokens data={data} />
 								</Suspense>
 							</div>
 						</div>
