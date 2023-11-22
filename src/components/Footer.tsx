@@ -99,13 +99,13 @@ export const BottomFooter = () => {
 
 			<Divider orientation="horizontal" />
 
-			<p className="w-full pt-4 text-center text-sm">
+			<p className="w-full pt-4 text-center text-xs sm:text-sm">
 				All characters 18+. The administration is not responsible for the content uploaded by users.
 			</p>
 
 			<Divider orientation="horizontal" className="mt-4" />
 
-			<p className="w-full pt-4 text-center text-sm">
+			<p className="w-full pt-4 text-center text-xs sm:text-sm">
 				Disclaimer: This fan website is not affiliated with or created by the official developer. All content
 				and information on this website are fan-generated and for entertainment purposes only.
 			</p>

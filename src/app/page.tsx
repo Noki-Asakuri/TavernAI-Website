@@ -2,9 +2,11 @@ import NextLink from "next/link";
 
 import { Divider, Image, Link, cn } from "@nextui-org/react";
 
+export const revalidate = 120;
+
 export default async function Home() {
-	const res = await fetch("https://api.github.com/repos/TavernAI/TavernAI/releases/latest", { cache: "no-cache" });
-	const version = res.ok ? ((await res.json()) as { name: string }) : { name: "1.5.2" };
+	const res = await fetch("https://api.github.com/repos/TavernAI/TavernAI/releases/latest");
+	const version = res.ok ? ((await res.json()) as { name: string }) : { name: "@1.5.2" };
 
 	return (
 		<main className="container flex max-w-7xl flex-grow flex-col justify-evenly gap-4">
@@ -21,7 +23,7 @@ export default async function Home() {
 					</div>
 				</div>
 
-				<span className="text-small text-gray-600">(Site in development)</span>
+				<span className="text-xs text-gray-600 sm:text-small">(Site in development)</span>
 			</section>
 
 			<section className="flex items-center justify-center">
