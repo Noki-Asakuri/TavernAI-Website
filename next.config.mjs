@@ -5,21 +5,7 @@
 await import("./src/env.mjs");
 
 /** @type {import("next").NextConfig} */
-const config = {
-	webpack: (config) => {
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-		config.experiments = {
-			asyncWebAssembly: true,
-			layers: true,
-		};
-
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-return
-		return config;
-	},
-	experimental: {
-		ppr: true,
-	},
-};
+const config = {};
 
 export default config;
 
