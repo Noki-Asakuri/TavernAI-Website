@@ -16,7 +16,7 @@ import { useStore } from "zustand";
 
 type CharacterType = NonNullable<RouterOutputs["tavern"]["getBoard"]["data"]>[number]["characters"][number];
 
-export const CharacterCard = ({ character }: { character: CharacterType }) => {
+export const CharacterCard = ({ character, className }: { character: CharacterType; className?: string }) => {
 	const state = useStore(useBlurNSFW, (state) => ({ isBlurNSFW: state.isBlurNSFW }));
 	const [isNSFW, setNSFW] = useState(character.nsfw === 1);
 
@@ -29,10 +29,11 @@ export const CharacterCard = ({ character }: { character: CharacterType }) => {
 	}, [state.isBlurNSFW]);
 
 	return (
-		<Card radius="lg" className="relative aspect-[2/3] w-60 flex-shrink-0 flex-grow-0 border-none">
+		<Card radius="lg" className={cn("relative aspect-[2/3] w-60 flex-shrink-0 flex-grow-0 border-none", className)}>
 			<Button
 				isIconOnly
 				size="sm"
+				aria-label={"Blur toggle for " + character.name}
 				className="absolute right-1 top-1 z-20"
 				onPress={() => setNSFW((prev) => !prev)}
 			>

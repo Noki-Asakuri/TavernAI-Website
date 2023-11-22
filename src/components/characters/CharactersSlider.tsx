@@ -21,7 +21,7 @@ export const CharactersSlider = ({
 		if (!sliderRef.current) return;
 
 		const currentScrollPosition = sliderRef.current.scrollLeft;
-		const moveX = Math.round(sliderRef.current.clientWidth / (240 + 6)) * 246;
+		const moveX = (Math.round(sliderRef.current.clientWidth / (240 + 6)) - 1) * 246;
 
 		if (currentScrollPosition === 0) return;
 
@@ -36,7 +36,7 @@ export const CharactersSlider = ({
 
 		const currentScrollPosition = sliderRef.current.scrollLeft;
 		const maxScrollWidth = sliderRef.current.scrollWidth - sliderRef.current.clientWidth;
-		const moveX = Math.round(sliderRef.current.clientWidth / (240 + 6)) * 246;
+		const moveX = (Math.round(sliderRef.current.clientWidth / (240 + 6)) - 1) * 246;
 
 		if (currentScrollPosition === maxScrollWidth) return;
 
@@ -72,9 +72,13 @@ export const CharactersSlider = ({
 
 	return (
 		<Card className="w-max max-w-full gap-4 overflow-hidden bg-opacity-40 p-6 backdrop-blur-lg backdrop-filter">
-			<div ref={sliderRef} className="flex gap-4 overflow-x-scroll py-1 pb-3">
+			<div ref={sliderRef} className="flex snap-x gap-4 overflow-x-scroll py-1 pb-3">
 				{category.characters.map((character) => (
-					<CharacterCard key={character.public_id_short} character={character} />
+					<CharacterCard
+						key={character.public_id_short}
+						character={character}
+						className="snap-start last:snap-end"
+					/>
 				))}
 			</div>
 
