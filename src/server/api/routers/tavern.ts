@@ -178,11 +178,9 @@ export const tavernRouter = createTRPCRouter({
 		.input(z.object({ nsfw: z.boolean().transform((value) => (value ? "on" : "off")) }))
 		.query(async ({ input }) => {
 			const res = await fetch(`https://tavernai.net/api/characters/board?nsfw=${input.nsfw}`);
-
 			if (!res.ok) return { status: res.status, messages: res.statusText };
 
 			const data = (await res.json()) as BoardType;
-
 			return { status: res.status, data };
 		}),
 
