@@ -20,7 +20,7 @@ export const Breadcrumbs = () => {
 			...pathName
 				.split("/")
 				.reduce((prev, curr) => (curr ? [...prev, [prev.at(-1), curr].join("/")] : prev), [] as string[])
-				.filter((path) => path.length),
+				.filter(Boolean),
 		];
 
 		if (typeof params.public_id_short !== "undefined") paths.pop();
@@ -29,7 +29,7 @@ export const Breadcrumbs = () => {
 	}, [params.public_id_short, pathName]);
 
 	return (
-		<section className="container grid max-w-7xl grid-cols-[max-content_1fr] items-center gap-2 py-4">
+		<section className="container grid max-w-7xl grid-cols-[max-content_1fr] grid-rows-1 items-center gap-2 py-4">
 			<Button
 				size="lg"
 				isIconOnly
@@ -45,7 +45,7 @@ export const Breadcrumbs = () => {
 				radius="lg"
 				variant="bordered"
 				underline="hover"
-				classNames={{ base: "w-full h-full flex", list: "w-full max-w-none flex-grow" }}
+				classNames={{ base: "w-full flex", list: "w-full max-w-none flex-grow" }}
 			>
 				{pathNames.map((path) => {
 					const href = path === "TavernAI" ? "/" : path;

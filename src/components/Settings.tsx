@@ -18,23 +18,20 @@ const Settings = () => {
 	}));
 
 	const [NSFW, setNSFW] = useCookie("nsfw");
-
-	useUpdateEffect(() => {
-		router.refresh();
-	}, [NSFW]);
+	useUpdateEffect(() => router.refresh(), [NSFW]);
 
 	return (
-		<div className="grid w-max grid-cols-[1fr_max-content_1fr] gap-2">
-			<Switch color="danger" onValueChange={() => state.toggle()} defaultSelected={state.isBlurNSFW ?? false}>
+		<div className="grid grid-cols-[1fr_max-content_1fr] grid-rows-1 gap-2 sm:w-max">
+			<Switch color="danger" onValueChange={() => state.toggle()} defaultSelected={state.isBlurNSFW}>
 				Blur NSFW
 			</Switch>
 
 			<Divider orientation="vertical" />
 
 			<Switch
-				defaultSelected={NSFW?.toLowerCase() === "true" ?? false}
 				color="primary"
-				onValueChange={(value) => setNSFW(String(value))}
+				defaultSelected={NSFW?.toLowerCase() === "true"}
+				onValueChange={(value) => setNSFW(String(value), { sameSite: "Strict" })}
 			>
 				NSFW
 			</Switch>
