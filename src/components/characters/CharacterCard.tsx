@@ -90,9 +90,9 @@ export const CharacterCard = ({ character }: { character: CharacterType }) => {
 							: character.short_description
 					}
 					classNames={{ content: "max-w-[240px]" }}
-					placement="bottom"
+					placement="top"
 				>
-					<p className="line-clamp-2 text-small">
+					<p className="line-clamp-2 w-full text-small">
 						{character.short_description.replaceAll(/{{char}}/gi, character.name)}
 					</p>
 				</Tooltip>
