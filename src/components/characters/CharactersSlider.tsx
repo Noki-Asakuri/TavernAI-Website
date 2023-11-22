@@ -8,7 +8,7 @@ import { Button, Card } from "@nextui-org/react";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useRef } from "react";
-import { useUpdateEffect } from "react-use";
+import { useLifecycles } from "react-use";
 
 export const CharactersSlider = ({
 	category,
@@ -46,27 +46,27 @@ export const CharactersSlider = ({
 		});
 	}, []);
 
-	useUpdateEffect(() => {
-		const onWheel = (event: WheelEvent) => {
-			if (event.deltaY != 0 && sliderRef.current) {
-				const currentPosition = sliderRef.current.scrollLeft;
-				const maxScroll = sliderRef.current.scrollWidth - sliderRef.current.clientWidth;
+	const onWheel = (event: WheelEvent) => {
+		if (event.deltaY != 0 && sliderRef.current) {
+			const currentPosition = sliderRef.current.scrollLeft;
+			const maxScroll = sliderRef.current.scrollWidth - sliderRef.current.clientWidth;
 
-				if (event.deltaY < 0 && currentPosition > 0) {
-					event.preventDefault();
-					return swipeLeft();
-				}
-
-				if (event.deltaY > 0 && currentPosition < maxScroll) {
-					event.preventDefault();
-					return swipeRight();
-				}
+			if (event.deltaY < 0 && currentPosition > 0) {
+				event.preventDefault();
+				return swipeLeft();
 			}
-		};
 
-		sliderRef.current?.addEventListener("wheel", onWheel);
-		return () => sliderRef.current?.removeEventListener("wheel", onWheel);
-	}, []);
+			if (event.deltaY > 0 && currentPosition < maxScroll) {
+				event.preventDefault();
+				return swipeRight();
+			}
+		}
+	};
+
+	useLifecycles(
+		() => sliderRef.current?.addEventListener("wheel", onWheel),
+		() => sliderRef.current?.removeEventListener("wheel", onWheel),
+	);
 
 	if (category.characters.length === 0) return false;
 
