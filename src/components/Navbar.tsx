@@ -5,7 +5,9 @@ import { ThemeSwitcher } from "./common/Theme-Switcher";
 import NextImage from "next/image";
 import NextLink from "next/link";
 
-import { Image, NavbarBrand, NavbarContent, NavbarItem, Navbar as NextNavbar } from "@nextui-org/react";
+import { Button, Image, Link, NavbarBrand, NavbarContent, NavbarItem, Navbar as NextNavbar } from "@nextui-org/react";
+
+import { Github } from "lucide-react";
 
 export const Navbar = () => {
 	return (
@@ -20,6 +22,19 @@ export const Navbar = () => {
 			<NavbarContent justify="end">
 				<NavbarItem>
 					<ThemeSwitcher />
+				</NavbarItem>
+
+				<NavbarItem>
+					<Button
+						isIconOnly
+						radius="full"
+						variant="flat"
+						as={Link}
+						href="https://github.com/Noki-Asakuri/TavernAI-Website"
+						isExternal
+					>
+						<Github />
+					</Button>
 				</NavbarItem>
 			</NavbarContent>
 		</NextNavbar>
