@@ -5,7 +5,9 @@ import { Divider, Image, Link, cn } from "@nextui-org/react";
 export const revalidate = 120;
 
 export default async function Home() {
-	const res = await fetch("https://api.github.com/repos/TavernAI/TavernAI/releases/latest");
+	const res = await fetch("https://api.github.com/repos/TavernAI/TavernAI/releases/latest", {
+		next: { revalidate: 120 },
+	});
 	const version = res.ok ? ((await res.json()) as { name: string }) : { name: "@1.5.2" };
 
 	return (
@@ -70,7 +72,7 @@ export default async function Home() {
 			</section>
 
 			<section className="flex items-center justify-center">
-				<Link as={NextLink} href="/characters" className="w-max max-w-full flex-shrink">
+				<NextLink href="/characters" className="w-max max-w-full flex-shrink">
 					<Image
 						classNames={{
 							wrapper: "w-[550px] max-w-full aspect-[1.73/1]",
@@ -80,7 +82,7 @@ export default async function Home() {
 						alt="TavernAI"
 						width={550}
 					/>
-				</Link>
+				</NextLink>
 			</section>
 		</main>
 	);
