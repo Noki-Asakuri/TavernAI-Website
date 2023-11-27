@@ -76,9 +76,11 @@ export const ImageAction = ({ data }: { data: NonNullable<RouterOutputs["tavern"
 					alt={data.short_description}
 					classNames={{
 						wrapper: "overflow-hidden rounded-b-none !max-w-none md:!max-w-xs",
-						img: cn("aspect-[2/3] md:w-80 w-full !transition-[transform,opacity,filter] blur-none", {
-							"blur-lg": blurNSFW,
-						}),
+						img: cn(
+							"aspect-[2/3] rounded-b-none md:w-80 w-full",
+							"!transition-[transform,opacity,filter] blur-none",
+							{ "blur-lg": blurNSFW },
+						),
 					}}
 					src={`https://tavernai.net/${data.user_name_view}/${data.public_id_short}.webp`}
 				/>
