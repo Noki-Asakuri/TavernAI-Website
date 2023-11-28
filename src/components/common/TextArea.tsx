@@ -9,9 +9,10 @@ import { useLayoutEffect, useRef } from "react";
 export const AutoResizeTextArea = ({ classNames, ...props }: TextAreaProps & { characterName: string }) => {
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-	const tokens = api.token.getToken.useQuery({
-		text: (props.defaultValue ?? "").replace(/{{char}}/gi, props.characterName),
-	});
+	const tokens = api.token.getToken.useQuery(
+		{ text: (props.defaultValue ?? "").replace(/{{char}}/gi, props.characterName) },
+		{ refetchOnReconnect: false, refetchOnWindowFocus: false, refetchOnMount: true },
+	);
 
 	useLayoutEffect(() => {
 		if (!textareaRef.current) return;
