@@ -4,6 +4,7 @@ import { AutoResizeTextArea } from "~/components/common/TextArea";
 import { api } from "~/trpc/server";
 
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
 
@@ -11,6 +12,11 @@ import { Avatar, Card, Chip, Divider, Input, Link, Spinner } from "@nextui-org/r
 
 import { CheckCircle, XCircle } from "lucide-react";
 import { Suspense, cache } from "react";
+
+const FavorButton = dynamic(() => import("~/components/common/FavorButton"), {
+	loading: () => <Spinner size="sm" />,
+	ssr: false,
+});
 
 const getData = cache(async ({ author, public_id_short }: { author: string; public_id_short: string }) => {
 	return await api.tavern.getCharacter.query({ author, public_id_short });
@@ -89,9 +95,20 @@ export default async function Page({ params }: { params: { author: string; publi
 								/>
 
 								<div className="flex flex-col items-center gap-2 sm:items-start">
-									<Link as={NextLink} href={"/characters/" + data.user_name_view} underline="hover">
-										<span className="text-2xl font-bold">{data.user_name_view}</span>
-									</Link>
+									<div className="flex items-center justify-start gap-2 text-2xl font-bold">
+										<Link
+											as={NextLink}
+											href={"/characters/" + data.user_name_view}
+											underline="hover"
+										>
+											<span className="text-2xl font-bold">{data.user_name_view}</span>
+										</Link>
+										<FavorButton
+											type="author"
+											name={data.user_name}
+											name_view={data.user_name_view}
+										/>
+									</div>
 									<span className="text-center sm:text-left">
 										Profile:{" "}
 										<Link

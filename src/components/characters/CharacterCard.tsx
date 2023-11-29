@@ -5,14 +5,20 @@ import type { RouterOutputs } from "~/trpc/shared";
 
 import { LazyImage } from "../common/LazyImage";
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
 
-import { Button, Card, CardFooter, Chip, Tooltip, cn } from "@nextui-org/react";
+import { Button, Card, CardFooter, Chip, Spinner, Tooltip, cn } from "@nextui-org/react";
 
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useUpdateEffect } from "react-use";
 import { useStore } from "zustand";
+
+const FavorButton = dynamic(() => import("~/components/common/FavorButton"), {
+	loading: () => <Spinner className="absolute left-1 top-1 z-40" size="sm" />,
+	ssr: false,
+});
 
 type CharacterType = NonNullable<RouterOutputs["tavern"]["getBoard"]["data"]>[number]["characters"][number];
 
@@ -30,6 +36,16 @@ export const CharacterCard = ({ character, className }: { character: CharacterTy
 
 	return (
 		<Card radius="lg" className={cn("relative aspect-[2/3] w-60 flex-shrink-0 flex-grow-0 border-none", className)}>
+			<FavorButton
+				type="character"
+				author={character.user_name_view}
+				description={character.short_description}
+				name={character.name}
+				public_id={character.public_id}
+				public_id_short={character.public_id_short}
+				className="absolute left-1 top-1 z-40"
+			/>
+
 			<Button
 				isIconOnly
 				size="sm"

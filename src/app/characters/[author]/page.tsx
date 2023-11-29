@@ -2,13 +2,19 @@ import { Author } from "~/components/characters/Author";
 import { api } from "~/trpc/server";
 
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
 
-import { Avatar, Button, Divider, Link } from "@nextui-org/react";
+import { Avatar, Button, Divider, Link, Spinner } from "@nextui-org/react";
 
 import { cache } from "react";
+
+const FavorButton = dynamic(() => import("~/components/common/FavorButton"), {
+	loading: () => <Spinner size="sm" />,
+	ssr: false,
+});
 
 const getData = cache(async ({ author, page }: { author: string; page: string }) => {
 	return await api.tavern.getCharactersFromAuthor.query({
@@ -45,7 +51,10 @@ export default async function Page({
 					className="h-28 w-28 text-large"
 				/>
 				<div className="flex flex-col gap-2">
-					<span className="text-2xl font-bold">{data.name_view}</span>
+					<div className="flex items-center justify-start gap-2 text-2xl font-bold">
+						<span>{data.name_view}</span>
+						<FavorButton type="author" name={data.name} name_view={data.name_view} />
+					</div>
 					<span>
 						Profile:{" "}
 						<Link as={NextLink} underline="hover" href={`https://tavernai.net/${data.name}`}>

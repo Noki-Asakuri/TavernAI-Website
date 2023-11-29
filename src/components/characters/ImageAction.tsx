@@ -3,12 +3,19 @@
 import { useBlurNSFW } from "~/server/store";
 import type { RouterOutputs } from "~/trpc/shared";
 
-import { Button, ButtonGroup, Chip, Image, cn } from "@nextui-org/react";
+import dynamic from "next/dynamic";
+
+import { Button, ButtonGroup, Chip, Image, Spinner, cn } from "@nextui-org/react";
 
 import { Eye, EyeOff, ImageDown } from "lucide-react";
 import { useState } from "react";
 import { useUpdateEffect } from "react-use";
 import { useStore } from "zustand";
+
+const FavorButton = dynamic(() => import("~/components/common/FavorButton"), {
+	loading: () => <Spinner className="absolute left-1 top-1 z-40" size="sm" />,
+	ssr: false,
+});
 
 export const ImageAction = ({ data }: { data: NonNullable<RouterOutputs["tavern"]["getCharacter"]["data"]> }) => {
 	const state = useStore(useBlurNSFW, (state) => ({ isBlurNSFW: state.isBlurNSFW }));
@@ -44,6 +51,16 @@ export const ImageAction = ({ data }: { data: NonNullable<RouterOutputs["tavern"
 	return (
 		<div className="flex flex-col">
 			<div className="relative isolate">
+				<FavorButton
+					type="character"
+					author={data.user_name}
+					description={data.short_description}
+					name={data.name}
+					public_id={data.public_id}
+					public_id_short={data.public_id_short}
+					className="absolute left-1 top-1 z-40"
+				/>
+
 				<Button
 					isIconOnly
 					size="sm"
