@@ -57,7 +57,7 @@ export const Author = ({
 						showControls={totalPages > 1}
 						isDisabled={totalPages === 1}
 						onChange={(value) =>
-							router.replace(`/characters/${data.name_view}?page=${value}`, { scroll: true })
+							router.replace(`/characters/${data.name_view}?page=${value}`, { scroll: false })
 						}
 						total={totalPages}
 					/>

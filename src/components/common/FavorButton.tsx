@@ -47,7 +47,7 @@ const FavorButton = (props: (Author | Character) & { className?: string }) => {
 					: state.toggleCharacterFavor({ ...props })
 			}
 		>
-			<Heart className={cn("transition-colors", { "fill-danger stroke-danger": isFavored })} />
+			<Heart className={cn({ "fill-danger stroke-danger": isFavored })} />
 		</Button>
 	);
 };

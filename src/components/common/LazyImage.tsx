@@ -33,7 +33,7 @@ export function LazyImage({ src, alt, ...props }: ImageProps) {
 					observer.unobserve(entry.target);
 				}
 			},
-			{ threshold: 0.01 }, // Configure to trigger when at least 1% is visible
+			{ threshold: 0.05 }, // Configure to trigger when at least 1% is visible
 		);
 
 		// Observe the image reference
