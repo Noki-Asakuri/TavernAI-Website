@@ -75,7 +75,7 @@ export default async function Home() {
 				<NextLink href="/characters" className="w-max max-w-full flex-shrink">
 					<Image
 						classNames={{
-							wrapper: "w-[550px] max-w-full aspect-[1.73/1]",
+							wrapper: "w-[550px] !max-w-full aspect-[1.73/1]",
 							img: "aspect-[1.73/1] h-auto",
 						}}
 						src="https://tavernai.net/dev.jpg"
