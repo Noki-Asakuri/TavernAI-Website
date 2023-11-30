@@ -40,7 +40,7 @@ const FavorButton = (props: (Author | Character) & { className?: string }) => {
 			isIconOnly
 			size="sm"
 			className={props.className}
-			variant="light"
+			variant={props.type === "author" ? "light" : undefined}
 			onPress={() =>
 				props.type === "author"
 					? state.toggleAuthorFavor({ ...props })
