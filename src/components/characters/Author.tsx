@@ -48,19 +48,21 @@ export const Author = ({
 				))}
 			</section>
 
-			<section className="flex items-center justify-center">
-				<Pagination
-					size="lg"
-					showShadow
-					page={page}
-					showControls={totalPages > 1}
-					isDisabled={totalPages === 1}
-					onChange={(value) =>
-						router.replace(`/characters/${data.name_view}?page=${value}`, { scroll: true })
-					}
-					total={totalPages}
-				/>
-			</section>
+			{totalPages > 1 && (
+				<section className="flex items-center justify-center">
+					<Pagination
+						size="lg"
+						showShadow
+						page={page}
+						showControls={totalPages > 1}
+						isDisabled={totalPages === 1}
+						onChange={(value) =>
+							router.replace(`/characters/${data.name_view}?page=${value}`, { scroll: true })
+						}
+						total={totalPages}
+					/>
+				</section>
+			)}
 		</>
 	);
 };

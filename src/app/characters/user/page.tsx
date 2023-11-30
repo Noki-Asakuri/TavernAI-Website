@@ -25,22 +25,23 @@ export const metadata: Metadata = {
 export default function Page() {
 	return (
 		<main className="container max-w-7xl flex-grow space-y-4">
-			<section className="space-y-2">
-				<h2 className="text-3xl font-semibold">User</h2>
+			<section className="space-y-4">
+				<h2 className="text-center text-2xl font-semibold">User</h2>
+
+				<Divider orientation="horizontal" />
+
 				<UserAvatar />
 			</section>
 
 			<Divider orientation="horizontal" />
 
-			<section className="space-y-2">
-				<h2 className="text-3xl font-semibold">Authors</h2>
+			<section className="space-y-4">
 				<FavorAuthor />
 			</section>
 
 			<Divider orientation="horizontal" />
 
-			<section className="space-y-2">
-				<h2 className="text-3xl font-semibold">Characters</h2>
+			<section className="space-y-4">
 				<FavorCharacter />
 			</section>
 		</main>
