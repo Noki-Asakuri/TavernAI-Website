@@ -13,7 +13,7 @@ export const Breadcrumbs = () => {
 	const params = useParams();
 
 	const pathNames = useMemo(() => {
-		if (pathName === "/") ["TavernAI"];
+		if (pathName === "/") return ["TavernAI"];
 
 		const paths = [
 			"TavernAI",
