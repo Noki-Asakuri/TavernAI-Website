@@ -1,13 +1,19 @@
+import { getTavernAIVersion } from "~/server/utils";
+
 import { Divider, Link, User } from "@nextui-org/react";
 
-export const BottomFooter = () => {
+export const BottomFooter = async () => {
+	const version = await getTavernAIVersion();
+
 	return (
 		<footer className="container max-w-7xl flex-none py-4">
 			<Divider orientation="horizontal" />
 
 			<div className="grid grid-cols-1 gap-2 py-4 sm:grid-cols-[1fr_max-content_1fr] md:grid-cols-[1fr_max-content_max-content_max-content_1fr] md:gap-0">
 				<div className="flex flex-col items-center justify-center">
-					<h3 className="text-lg font-bold">TavernAI</h3>
+					<h3 className="text-lg font-bold">
+						TavernAI - <span className="inline-block text-small">{version.name.slice(1)}</span>
+					</h3>
 					<p className="text-center text-small">
 						Atmospheric adventure chat for AI language models (KoboldAI, NovelAI, Pygmalion, OpenAI)
 					</p>

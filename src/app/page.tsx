@@ -1,3 +1,5 @@
+import { getTavernAIVersion } from "~/server/utils";
+
 import NextLink from "next/link";
 
 import { Divider, Image, Link, cn } from "@nextui-org/react";
@@ -5,10 +7,7 @@ import { Divider, Image, Link, cn } from "@nextui-org/react";
 export const revalidate = 120;
 
 export default async function Home() {
-	const res = await fetch("https://api.github.com/repos/TavernAI/TavernAI/releases/latest", {
-		next: { revalidate: 120 },
-	});
-	const version = res.ok ? ((await res.json()) as { name: string }) : { name: "@1.5.2" };
+	const version = await getTavernAIVersion();
 
 	return (
 		<main className="container flex max-w-7xl flex-grow flex-col justify-evenly gap-4">

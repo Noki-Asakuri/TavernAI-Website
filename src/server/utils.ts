@@ -1,3 +1,5 @@
+import { unstable_cache } from "next/cache";
+
 import ExifReader from "exifreader";
 import PNGtext from "png-chunk-text";
 import encode from "png-chunks-encode";
@@ -13,6 +15,17 @@ type Failure = {
 	status: "Failed";
 	message: unknown;
 };
+
+export const getTavernAIVersion = unstable_cache(
+	async () => {
+		const res = await fetch("https://api.github.com/repos/TavernAI/TavernAI/releases/latest");
+		const version = res.ok ? ((await res.json()) as { name: string }) : { name: "@1.5.2" };
+
+		return version;
+	},
+	["TavernAIVersion"],
+	{ revalidate: 120, tags: ["version"] },
+);
 
 export const writeDataToImage = async (
 	imageBuffer: Buffer | ArrayBuffer,
