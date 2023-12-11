@@ -3,14 +3,10 @@
 import { Button, Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 
 import { AlertTriangle, RefreshCw } from "lucide-react";
-// Error components must be Client Components
 import { useEffect } from "react";
 
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
-	useEffect(() => {
-		// Log the error to an error reporting service
-		console.error(error);
-	}, [error]);
+	useEffect(() => console.error(error), [error]);
 
 	return (
 		<main className="container flex max-w-7xl flex-grow items-center justify-center">
