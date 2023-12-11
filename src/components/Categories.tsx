@@ -1,5 +1,6 @@
 import { api } from "~/trpc/server";
 
+import { unstable_cache } from "next/cache";
 import Link from "next/link";
 
 import { Chip } from "@nextui-org/react";
@@ -20,8 +21,16 @@ const CategoryChip = (props: { name: string; name_view: string; count?: number; 
 	);
 };
 
+const getData = unstable_cache(
+	async () => {
+		return await api.tavern.getCategories.query({ limit: 10 });
+	},
+	["categories"],
+	{ revalidate: 60 },
+);
+
 export const Categories = async () => {
-	const data = await api.tavern.getCategories.query({ limit: 10 });
+	const data = await getData();
 
 	return (
 		<div className="flex flex-wrap gap-2">

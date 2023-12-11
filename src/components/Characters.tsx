@@ -2,11 +2,20 @@ import { api } from "~/trpc/server";
 
 import { CharactersSlider } from "./characters/CharactersSlider";
 
+import { unstable_cache } from "next/cache";
 import { cookies } from "next/headers";
 import Link from "next/link";
 
+const getData = unstable_cache(
+	async () => {
+		return await api.tavern.getBoard.query({ nsfw: cookies().get("nsfw")?.value === "true" });
+	},
+	["characters"],
+	{ revalidate: 60 },
+);
+
 export const Characters = async () => {
-	const { data } = await api.tavern.getBoard.query({ nsfw: cookies().get("nsfw")?.value === "true" });
+	const { data } = await getData();
 
 	return (
 		<section className="flex flex-col gap-6">
