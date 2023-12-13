@@ -71,7 +71,7 @@ export const CharactersSlider = ({
 	if (category.characters.length === 0) return false;
 
 	return (
-		<Card className="w-max max-w-full gap-4 overflow-hidden bg-opacity-40 p-6 backdrop-blur-lg backdrop-filter">
+		<Card className="w-full max-w-full gap-4 overflow-hidden bg-opacity-40 p-6 backdrop-blur-lg backdrop-filter">
 			<div ref={sliderRef} className="flex snap-x snap-mandatory gap-4 overflow-x-scroll py-1 pb-3">
 				{category.characters.map((character) => (
 					<CharacterCard
