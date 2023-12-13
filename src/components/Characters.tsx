@@ -7,19 +7,21 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 
 const getData = unstable_cache(
-	async () => {
-		return await api.tavern.getBoard.query({ nsfw: cookies().get("nsfw")?.value === "true" });
+	async (nsfw: boolean) => {
+		return await api.tavern.getBoard.query({ nsfw });
 	},
 	["characters"],
 	{ revalidate: 60 },
 );
 
 export const Characters = async () => {
-	const { data } = await getData();
+	const { data } = await getData(cookies().get("nsfw")?.value === "true");
 
 	return (
 		<section className="flex flex-col gap-6">
 			{data?.map((category) => {
+				if (category.characters.length === 0) return null;
+
 				return (
 					<div key={["characters", category.name].join()} className="flex flex-col gap-2">
 						<h2 className="text-xl font-bold capitalize">
