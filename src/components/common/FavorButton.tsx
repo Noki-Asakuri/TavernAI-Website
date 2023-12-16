@@ -6,6 +6,7 @@ import { Button, cn } from "@nextui-org/react";
 
 import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useMount } from "react-use";
 import { useStore } from "zustand";
 
 type Author = FavoriteObject["author"] & {
@@ -18,8 +19,9 @@ type Character = FavoriteObject["character"] & {
 	public_id: string;
 };
 
-const FavorButton = (props: (Author | Character) & { className?: string }) => {
+export const FavorButton = (props: (Author | Character) & { className?: string }) => {
 	const state = useStore(useUserStore, (state) => state);
+	const [isMount, setMouted] = useState(false);
 
 	const [isFavored, setFavor] = useState(
 		props.type === "author" ? state.isAuthorFavored(props.name) : state.isCharacterFavored(props.public_id),
@@ -34,6 +36,21 @@ const FavorButton = (props: (Author | Character) & { className?: string }) => {
 
 		return () => unsubscribe();
 	}, [props, state]);
+
+	useMount(() => {
+		if (!isMount) setMouted(true);
+	});
+
+	if (!isMount)
+		return (
+			<Button
+				size="sm"
+				isLoading
+				isIconOnly
+				className={props.className}
+				variant={props.type === "author" ? "light" : undefined}
+			/>
+		);
 
 	return (
 		<Button
@@ -51,5 +68,3 @@ const FavorButton = (props: (Author | Character) & { className?: string }) => {
 		</Button>
 	);
 };
-
-export default FavorButton;

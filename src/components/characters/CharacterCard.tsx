@@ -3,22 +3,17 @@
 import { useBlurNSFW } from "~/server/store";
 import type { RouterOutputs } from "~/trpc/shared";
 
+import { FavorButton } from "../common/FavorButton";
 import { LazyImage } from "../common/LazyImage";
 
-import dynamic from "next/dynamic";
-import Link from "next/link";
+import NextLink from "next/link";
 
-import { Button, Card, CardFooter, Chip, Spinner, Tooltip, cn } from "@nextui-org/react";
+import { Button, Card, CardFooter, Chip, Link, Tooltip, cn } from "@nextui-org/react";
 
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useUpdateEffect } from "react-use";
 import { useStore } from "zustand";
-
-const FavorButton = dynamic(() => import("~/components/common/FavorButton"), {
-	loading: () => <Spinner className="absolute left-1 top-1 z-40" size="sm" />,
-	ssr: false,
-});
 
 type CharacterType = NonNullable<RouterOutputs["tavern"]["getBoard"]["data"]>[number]["characters"][number];
 
@@ -56,7 +51,7 @@ export const CharacterCard = ({ character, className }: { character: CharacterTy
 				{blurNSFW ? <Eye size={20} /> : <EyeOff size={20} />}
 			</Button>
 
-			<Link
+			<NextLink
 				className="block aspect-[2/3]"
 				href={`/characters/${character.user_name_view}/${character.name}/${character.public_id_short}`}
 				onClick={(event) => {
@@ -92,10 +87,16 @@ export const CharacterCard = ({ character, className }: { character: CharacterTy
 					loading="lazy"
 					width={240}
 				/>
-			</Link>
+			</NextLink>
 
-			<CardFooter className="absolute bottom-0 z-10 min-h-[40%] flex-col items-start justify-end bg-gradient-to-t from-black to-transparent text-white">
-				<Link href={"/characters/" + character.user_name_view}>
+			<CardFooter className="pointer-events-none absolute bottom-0 z-10 h-full flex-col items-start justify-end bg-gradient-to-t from-black to-transparent text-white">
+				<Link
+					as={NextLink}
+					href={"/characters/" + character.user_name_view}
+					className="pointer-events-auto"
+					color="foreground"
+					underline="hover"
+				>
 					<h3>@{character.user_name_view}</h3>
 				</Link>
 				<span className="text-lg">{character.name}</span>
@@ -109,7 +110,7 @@ export const CharacterCard = ({ character, className }: { character: CharacterTy
 					classNames={{ content: "max-w-[240px]" }}
 					placement="top"
 				>
-					<p className="line-clamp-2 w-full text-small">
+					<p className="pointer-events-auto line-clamp-2 w-full text-small">
 						{character.short_description.replaceAll(/{{char}}/gi, character.name)}
 					</p>
 				</Tooltip>

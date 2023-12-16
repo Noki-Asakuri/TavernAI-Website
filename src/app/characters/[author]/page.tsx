@@ -1,20 +1,15 @@
 import { Author } from "~/components/characters/Author";
+import { FavorButton } from "~/components/common/FavorButton";
 import { api } from "~/trpc/server";
 
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
 
-import { Avatar, Button, Divider, Link, Spinner } from "@nextui-org/react";
+import { Avatar, Button, Divider, Link } from "@nextui-org/react";
 
 import { cache } from "react";
-
-const FavorButton = dynamic(() => import("~/components/common/FavorButton"), {
-	loading: () => <Spinner size="sm" />,
-	ssr: false,
-});
 
 const getData = cache(async ({ author, page }: { author: string; page: string }) => {
 	return await api.tavern.getCharactersFromAuthor.query({
