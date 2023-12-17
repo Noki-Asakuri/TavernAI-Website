@@ -2,7 +2,7 @@
 
 import { useUserStore } from "~/server/store";
 
-import FavorButton from "../common/FavorButton";
+import { FavorButton } from "../common/FavorButton";
 
 import NextLink from "next/link";
 

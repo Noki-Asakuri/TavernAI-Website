@@ -1,10 +1,10 @@
 import { ImageAction } from "~/components/characters/ImageAction";
 import { Tokens } from "~/components/characters/Tokens";
+import { FavorButton } from "~/components/common/FavorButton";
 import { AutoResizeTextArea } from "~/components/common/TextArea";
 import { api } from "~/trpc/server";
 
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
 
@@ -12,11 +12,6 @@ import { Avatar, Card, Chip, Divider, Input, Link, Spinner } from "@nextui-org/r
 
 import { CheckCircle, XCircle } from "lucide-react";
 import { Suspense, cache } from "react";
-
-const FavorButton = dynamic(() => import("~/components/common/FavorButton"), {
-	loading: () => <Spinner size="sm" />,
-	ssr: false,
-});
 
 const getData = cache(async ({ author, public_id_short }: { author: string; public_id_short: string }) => {
 	return await api.tavern.getCharacter.query({ author, public_id_short });
