@@ -6,11 +6,13 @@ import { useRouter } from "next/navigation";
 
 import { Divider, Switch } from "@nextui-org/react";
 
-import { useCookie, useUpdateEffect } from "react-use";
+import { useState } from "react";
+import { useCookie, useMount, useUpdateEffect } from "react-use";
 import { useStore } from "zustand";
 
 const Settings = () => {
 	const router = useRouter();
+	const [isMounted, setMounted] = useState(false);
 
 	const state = useStore(useBlurNSFW, (state) => ({
 		isBlurNSFW: state.isBlurNSFW,
@@ -20,9 +22,13 @@ const Settings = () => {
 	const [NSFW, setNSFW] = useCookie("nsfw");
 	useUpdateEffect(() => router.refresh(), [NSFW]);
 
+	useMount(() => {
+		if (!isMounted) setMounted(true);
+	});
+
 	return (
 		<div className="grid grid-cols-[1fr_max-content_1fr] grid-rows-1 gap-2 sm:w-max">
-			<Switch color="danger" onValueChange={() => state.toggle()} defaultSelected={state.isBlurNSFW}>
+			<Switch color="danger" isSelected={isMounted && state.isBlurNSFW} onValueChange={() => state.toggle()}>
 				Blur NSFW
 			</Switch>
 
@@ -30,8 +36,8 @@ const Settings = () => {
 
 			<Switch
 				color="primary"
-				defaultSelected={NSFW?.toLowerCase() === "true"}
-				onValueChange={(value) => setNSFW(String(value), { sameSite: "Strict" })}
+				isSelected={NSFW?.toLowerCase() === "true"}
+				onValueChange={(value) => setNSFW(String(value), { sameSite: "Strict", expires: new Date(Date.now() + 10 * 365.24 * 60 * 60 * 24 * 1000) })}
 			>
 				NSFW
 			</Switch>
@@ -40,3 +46,4 @@ const Settings = () => {
 };
 
 export default Settings;
+

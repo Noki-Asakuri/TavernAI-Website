@@ -1,12 +1,9 @@
 import { Searchbar } from "~/components/Searchbar";
-
-import dynamic from "next/dynamic";
+import Settings from "~/components/Settings";
 
 import { Divider } from "@nextui-org/react";
 
 import type { ReactNode } from "react";
-
-const Settings = dynamic(() => import("~/components/Settings"), { ssr: false });
 
 export default function Layout({ children }: { children: ReactNode }) {
 	return (
@@ -22,3 +19,4 @@ export default function Layout({ children }: { children: ReactNode }) {
 		</>
 	);
 }
+
