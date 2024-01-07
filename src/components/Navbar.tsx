@@ -35,8 +35,7 @@ export const Navbar = () => {
 		<NextNavbar
 			onMenuOpenChange={setIsMenuOpen}
 			isBordered
-			shouldHideOnScroll
-			position="static"
+			position="sticky"
 			classNames={{ wrapper: "max-w-7xl px-4" }}
 		>
 			<NavbarBrand>
@@ -109,3 +108,4 @@ export const Navbar = () => {
 		</NextNavbar>
 	);
 };
+
