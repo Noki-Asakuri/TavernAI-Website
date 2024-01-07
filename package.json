@@ -27,6 +27,7 @@
 		"png-chunks-extract": "^1.0.0",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
+		"react-intersection-observer": "^9.5.3",
 		"react-use": "^17.4.2",
 		"sharp": "^0.32.6",
 		"superjson": "^2.2.1",
